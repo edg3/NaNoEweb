@@ -1,0 +1,451 @@
+﻿html {
+  font-size: 14px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+nav a, nav a:hover, nav a:visited {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: white;
+  margin-inline: 8px;
+}
+nav a, nav a:visited {
+  color: #000;
+}
+nav a:hover {
+  color: #6CB4EE;
+}
+nav .navbar-brand {
+  width: 100px;
+  display: inline-flex;
+  padding-left: 16px;
+}
+nav ul {
+  list-style: none;
+  display: inline-block;
+}
+nav ul li {
+  display: inline-block;
+}
+nav ul li:hover {
+  color: #FFF;
+}
+
+/* Buttons: action-name => jquery binder */
+input[type=button],
+.button {
+  color: #EFEFEF;
+  background-color: #555;
+  text-align: center;
+  padding: 4px 2px;
+  margin: 2px;
+  border-radius: 4px;
+  min-width: 100px;
+  border: 0;
+}
+input[type=button]:hover,
+.button:hover {
+  cursor: pointer;
+  background-color: #6CB4EE;
+}
+input[type=button]:focus,
+.button:focus {
+  outline: 0;
+}
+
+/* items-list */
+.notes {
+  background: #FFF;
+  border: 1px solid #EFEFEF;
+  padding: 4px;
+}
+
+/* Layouts */
+.row {
+  display: inline-flex;
+  padding: 2px;
+  width: calc(100% - 10px);
+  margin-bottom: 4px;
+}
+.row .col-1 {
+  width: 8.33333%;
+}
+.row .col-2 {
+  width: 16.66666%;
+}
+.row .col-3 {
+  width: 26.99999%;
+}
+.row .col-4 {
+  width: 33.33332%;
+}
+.row .col-5 {
+  width: 41.66665%;
+}
+.row .col-6 {
+  width: 49.99998%;
+}
+.row .col-7 {
+  width: 58.33331%;
+}
+.row .col-8 {
+  width: 66.66664%;
+}
+.row .col-9 {
+  width: 74.99997%;
+}
+.row .col-10 {
+  width: 83.3333%;
+}
+.row .col-11 {
+  width: 91.66663%;
+}
+.row .col-12 {
+  width: 99.99996%;
+}
+.row .col-1,
+.row .col-2,
+.row .col-3,
+.row .col-4,
+.row .col-5,
+.row .col-6,
+.row .col-7,
+.row .col-8,
+.row .col-9,
+.row .col-10,
+.row .col-11,
+.row .col-12 {
+  padding: 2px;
+}
+
+@media screen and (max-width: 600px) {
+  .row {
+    display: block;
+  }
+  .row .col-1,
+.row .col-2,
+.row .col-3,
+.row .col-4,
+.row .col-5,
+.row .col-6,
+.row .col-7,
+.row .col-8,
+.row .col-9,
+.row .col-10,
+.row .col-11,
+.row .col-12 {
+    width: 100%;
+  }
+}
+/* middle column */
+.novel-history,
+.novel-create-new,
+.novel-open-existing,
+.area-writing,
+.area-editing,
+.area-publish {
+  width: 800px;
+  margin-inline: auto;
+}
+
+@media screen and (max-width: 800px) {
+  .novel-history,
+.novel-create-new,
+.novel-open-existing {
+    width: calc(100% - 8px);
+  }
+}
+.error {
+  color: orangered;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+}
+
+.success {
+  color: #6CB4EE;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* new  /  open/import */
+.novel-actions {
+  margin-bottom: 12px;
+}
+
+/* home page */
+.novel-history {
+  margin-inline: auto;
+  border-left: 1px solid #EFEFEF;
+  border-right: 1px solid #EFEFEF;
+}
+.novel-history .line {
+  border-bottom: 1px dotted #EFEFEF;
+}
+.novel-history .line:first-of-type {
+  border-top: 1px solid #EFEFEF;
+}
+.novel-history .line:last-of-type {
+  border-bottom: 1px solid #EFEFEF;
+}
+
+.area-history {
+  width: 600px;
+  margin-inline: auto;
+}
+.area-history .row {
+  padding: 8px 16px;
+}
+
+/* new novel */
+/* general */
+.novel-title {
+  height: 100%;
+  text-align: center;
+  margin-inline: 50px;
+  padding-top: 8px;
+  font-weight: 800;
+  color: #6CB4EE;
+}
+
+/* open existing novel */
+.novel-listed {
+  margin: 1px;
+  padding: 3px;
+  border: 1px solid #EFEFEF;
+}
+.novel-listed:hover {
+  background-color: #6CB4EE;
+  color: #FFF;
+  cursor: pointer;
+}
+
+/* forms */
+#frmNewNovel .row {
+  padding-block: 3px;
+}
+#frmNewNovel #name {
+  width: 480px;
+}
+
+/* Writing area */
+body:has(.area-writing) {
+  background-color: #F9F9F9;
+}
+
+.area-writing {
+  height: 650px;
+  background-color: #FFF;
+  overflow: hidden;
+}
+.area-writing .note {
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 216px;
+  padding: 2px;
+  color: #CCC;
+  margin-left: 4px;
+}
+.area-writing .note strong {
+  color: #00308F;
+}
+.area-writing .action {
+  margin-top: 2px;
+  margin-inline: 4px;
+  color: #FFF;
+  width: 68px;
+  text-align: center;
+  padding: 4px 10px 4px 10px;
+  background-color: #555;
+}
+.area-writing .action:hover {
+  background-color: #6CB4EE;
+  cursor: pointer;
+}
+.area-writing .disabled {
+  background-color: #CCC;
+}
+.area-writing .disabled:hover {
+  background-color: #CCC;
+  cursor: not-allowed;
+}
+.area-writing input[type=checkbox i] {
+  margin: 0px;
+}
+.area-writing .novel-above .row,
+.area-writing .novel-below .row,
+.area-writing .novel-writing .row {
+  background-color: #FFF;
+}
+.area-writing .novel-above .row .col-10,
+.area-writing .novel-below .row .col-10,
+.area-writing .novel-writing .row .col-10 {
+  /*                padding: 4px;
+  margin: 4px;*/
+}
+.area-writing .novel-above .paragraph,
+.area-writing .novel-below .paragraph,
+.area-writing .novel-writing .paragraph {
+  width: 600px;
+  margin-inline: auto;
+  border-top: 1px solid #EFEFEF;
+}
+.area-writing .novel-above .paragraph em,
+.area-writing .novel-below .paragraph em,
+.area-writing .novel-writing .paragraph em {
+  color: #CCC;
+}
+.area-writing .novel-above {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  height: calc(50% - 75px);
+}
+.area-writing .novel-above .paragraph {
+  display: none;
+}
+.area-writing .novel-above .paragraph:nth-of-type(1n) {
+  display: block;
+}
+.area-writing .novel-writing {
+  background-color: #FFF;
+  height: 150px;
+}
+.area-writing .novel-below {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: calc(50% - 90px);
+}
+.area-writing .novel-below .paragraph:nth-of-type(1n + 5) {
+  display: none;
+}
+.area-writing .novel-below .col-2,
+.area-writing .novel-above .col-2 {
+  display: none;
+}
+.area-writing .novel-above .paragraph:last-of-type .col-2 {
+  display: block;
+}
+.area-writing .novel-writing .writing-area {
+  width: 600px;
+  margin-inline: auto;
+  padding: 8px;
+  margin-top: 12px;
+}
+.area-writing .writing-box {
+  width: 95%;
+  min-height: 100%;
+  max-height: 100%;
+  margin: 2px;
+  resize: none;
+  border: 1px solid #CCC;
+  padding: 4px;
+  border-radius: 5px;
+}
+.area-writing .writing-box:focus {
+  outline: none !important;
+  border: 1px solid #6CB4EE;
+}
+.area-writing .totals {
+  position: absolute;
+  left: 16px;
+  color: #6CB4EE;
+  width: 200px;
+  text-align: end;
+}
+.area-writing .totals strong {
+  color: #555;
+  min-width: 300px;
+  margin-right: 8px;
+}
+.area-writing .notes {
+  position: absolute;
+  right: 16px;
+  color: #6CB4EE;
+  width: 250px;
+  text-align: start;
+}
+.area-writing .notes .act-notes, .area-writing .notes .act-chapters {
+  display: inline-flex;
+  margin-inline: 10px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 4px 12px;
+  border-radius: 15px;
+}
+.area-writing .notes .act-notes.selected, .area-writing .notes .act-chapters.selected {
+  background-color: #6CB4EE;
+  color: #FFF;
+}
+.area-writing .notes .show-items {
+  text-align: center;
+}
+.area-writing .notes .new-item {
+  background-color: #6CB4EE;
+  margin-left: 110px;
+  width: 16px;
+  color: #FFF;
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.area-writing .notes .notes-items, .area-writing .notes .chapter-items {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  height: 100px;
+}
+.area-writing .notes .notes-items ul, .area-writing .notes .chapter-items ul {
+  list-style: none;
+  height: 100px;
+  border: 1px dotted #EFEFEF;
+}
+.area-writing .notes .notes-items ul li:hover, .area-writing .notes .chapter-items ul li:hover {
+  background-color: #6CB4EE;
+  color: #FFF;
+  cursor: pointer;
+}
+
+.paragraph.para-chapter .col-10 {
+  font-weight: 800;
+  font-size: 16px;
+  color: #6CB4EE;
+}
+.paragraph.para-note .col-10 {
+  font-weight: 200;
+  font-size: 12px;
+  color: #EFEFEF;
+}
+.paragraph.para-bookmark .col-10 {
+  font-weight: 600;
+  font-size: 14px;
+  color: #6CB4EE;
+}
+.paragraph .col-2 {
+  position: relative;
+}
+.paragraph .col-2 .action {
+  position: absolute;
+  bottom: 0;
+}
+
+ul {
+  padding-inline-start: 0px;
+}
+ul li {
+  padding: 2px;
+}

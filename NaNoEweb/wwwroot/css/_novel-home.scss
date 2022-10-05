@@ -1,0 +1,64 @@
+﻿/* new  /  open/import */
+.novel-actions {
+    margin-bottom: 12px;
+}
+
+/* home page */
+.novel-history {
+    margin-inline: auto;
+    border-left: 1px solid #EFEFEF;
+    border-right: 1px solid #EFEFEF;
+    .line {
+        border-bottom: 1px dotted #EFEFEF;
+        &:first-of-type {
+            border-top: 1px solid #EFEFEF;
+        }
+        &:last-of-type {
+            border-bottom: 1px solid #EFEFEF;
+        }
+    }
+}
+.area-history {
+    width: 600px;
+    margin-inline: auto;
+    .row {
+        padding: 8px 16px;
+    }
+}
+
+/* new novel */
+.novel-create-new {
+}
+
+/* general */
+.novel-title {
+    height: 100%;
+    text-align: center;
+    margin-inline: 50px;
+    padding-top: 8px;
+    font-weight: 800;
+    color: $baseActionBlue;
+}
+
+/* open existing novel */
+.novel-listed {
+    margin: 1px;
+    padding: 3px;
+    border: 1px solid #EFEFEF;
+
+    &:hover {
+        background-color: $baseActionBlue;
+        color: #FFF;
+        cursor: pointer;
+    }
+}
+
+/* forms */
+#frmNewNovel {
+    .row {
+        padding-block: 3px;
+    }
+    #name {
+        width: 480px;
+    }
+}

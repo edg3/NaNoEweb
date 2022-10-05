@@ -1,0 +1,109 @@
+// Variables
+$baseActionBlue: #6CB4EE;
+$baseBorder: #EFEFEF;
+$baseActionDark: #555;
+$baseComment: #CCC;
+$baseCommentHilight: #00308F;
+$baseGrey: #EFEFEF;
+
+
+// Main
+html {
+    font-size: 14px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+nav {
+    a, a:hover, a:visited {
+        border: none;
+        outline: none;
+        text-decoration: none;
+        -webkit-tap-highlight-color: white;
+        margin-inline: 8px;
+    }
+
+    a, a:visited {
+        color: #000;
+    }
+
+    a:hover {
+        color: $baseActionBlue;
+    }
+
+    .navbar-brand {
+        width: 100px;
+        display: inline-flex;
+        padding-left: 16px;
+    }
+
+    ul {
+        list-style: none;
+        display: inline-block;
+
+        li {
+            display: inline-block;
+
+            &:hover {
+                color: #FFF;
+            }
+        }
+    }
+}
+
+// Back End - i.e. Elements we can use everywhere and the go everywhere
+//  - this way if we need 'button' to look different in a single view it's 1 spot rewrite
+@import "_ui-elements.scss";
+
+/* middle column */
+.novel-history,
+.novel-create-new,
+.novel-open-existing,
+.area-writing,
+.area-editing,
+.area-publish {
+    width: 800px;
+    margin-inline: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .novel-history,
+    .novel-create-new,
+    .novel-open-existing {
+        width: calc(100% - 8px);
+    }
+}
+
+.error {
+    color: orangered;
+    font-style: italic;
+    font-size: 12px;
+    text-align: center;
+}
+
+.success {
+    color: $baseActionBlue;
+    font-style: italic;
+    font-size: 12px;
+    text-align: center;
+}
+
+
+// Front End - i.e. customisations in views
+@import "_novel-home.scss";
+@import "_novel-writing.scss";
+@import "_novel-publishing.scss";
+
+ul {
+    padding-inline-start: 0px;
+    li {
+        padding: 2px;
+    }
+}

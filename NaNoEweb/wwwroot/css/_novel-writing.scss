@@ -1,0 +1,242 @@
+﻿/* Writing area */
+body:has(.area-writing) {
+    background-color: #F9F9F9;
+}
+
+.area-writing {
+    height: 650px;
+    background-color: #FFF;
+    overflow: hidden;
+
+    .note {
+        font-size: 12px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 216px;
+        padding: 2px;
+        color: $baseComment;
+        margin-left: 4px;
+
+        strong {
+            color: $baseCommentHilight;
+        }
+    }
+
+    .action {
+        margin-top: 2px;
+        margin-inline: 4px;
+        color: #FFF;
+        width: 68px;
+        text-align: center;
+        padding: 4px 10px 4px 10px;
+        background-color: $baseActionDark;
+
+        &:hover {
+            background-color: $baseActionBlue;
+            cursor: pointer;
+        }
+    }
+
+    .disabled {
+        background-color: $baseComment;
+
+        &:hover {
+            background-color: $baseComment;
+            cursor: not-allowed;
+        }
+    }
+
+    input[type="checkbox" i] {
+        margin: 0px;
+    }
+    // Areas
+    .novel-above,
+    .novel-below,
+    .novel-writing {
+        .row {
+            background-color: #FFF;
+
+            .col-10 {
+                /*                padding: 4px;
+                margin: 4px;*/
+            }
+        }
+
+        .paragraph {
+            width: 600px;
+            margin-inline: auto;
+            border-top: 1px solid #EFEFEF;
+
+            em {
+                color: $baseComment;
+            }
+        }
+    }
+
+    .novel-above {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        height: calc(50% - 75px);
+
+        .paragraph {
+            display: none;
+        }
+
+        .paragraph:nth-of-type(1n) {
+            display: block;
+        }
+    }
+
+    .novel-writing {
+        background-color: #FFF;
+        height: 150px;
+    }
+
+    .novel-below {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        height: calc(50% - 90px);
+
+        .paragraph:nth-of-type(1n + 5) {
+            display: none;
+        }
+    }
+
+    .novel-below,
+    .novel-above {
+        .col-2 {
+            display: none;
+        }
+    }
+
+    .novel-above .paragraph:last-of-type .col-2 {
+        display: block;
+    }
+
+    .novel-writing .writing-area {
+        width: 600px;
+        margin-inline: auto;
+        padding: 8px;
+        margin-top: 12px;
+    }
+
+    .writing-box {
+        width: 95%;
+        min-height: 100%;
+        max-height: 100%;
+        margin: 2px;
+        resize: none;
+        border: 1px solid $baseComment;
+        padding: 4px;
+        border-radius: 5px;
+
+        &:focus {
+            outline: none !important;
+            border: 1px solid $baseActionBlue;
+        }
+    }
+
+    .totals {
+        position: absolute;
+        left: 16px;
+        color: $baseActionBlue;
+        width: 200px;
+        text-align: end;
+
+        strong {
+            color: $baseActionDark;
+            min-width: 300px;
+            margin-right: 8px;
+        }
+    }
+
+    .notes {
+        position: absolute;
+        right: 16px;
+        color: $baseActionBlue;
+        width: 250px;
+        text-align: start;
+
+        .act-notes, .act-chapters {
+            display: inline-flex;
+            margin-inline: 10px;
+            cursor: pointer;
+            padding: 3px 6px;
+            margin: 4px 12px;
+            border-radius: 15px;
+
+            &.selected {
+                background-color: $baseActionBlue;
+                color: #FFF;
+            }
+        }
+
+        .show-items {
+            text-align: center;
+        }
+
+        .new-item {
+            background-color: $baseActionBlue;
+            margin-left: 110px;
+            width: 16px;
+            color: #FFF;
+            text-align: center;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .notes-items, .chapter-items {
+            margin-top: 16px;
+            margin-bottom: 16px;
+            height: 100px;
+
+            ul {
+                list-style: none;
+                height: 100px;
+                border: 1px dotted $baseGrey;
+
+                li {
+                    &:hover {
+                        background-color: $baseActionBlue;
+                        color: #FFF;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.paragraph {
+    &.para-chapter .col-10 {
+        font-weight: 800;
+        font-size: 16px;
+        color: $baseActionBlue;
+    }
+
+    &.para-note .col-10 {
+        font-weight: 200;
+        font-size: 12px;
+        color: $baseGrey;
+    }
+
+    &.para-bookmark .col-10 {
+        font-weight: 600;
+        font-size: 14px;
+        color: $baseActionBlue;
+    }
+
+    .col-2 {
+        position: relative;
+
+        .action {
+            position: absolute;
+            bottom: 0;
+        }
+    }
+}

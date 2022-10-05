@@ -1,0 +1,37 @@
+﻿@using NaNoEweb.DBConnection
+@using NaNoEweb.Data
+@{
+    ViewData["Title"] = "Home";
+
+    //if (LoadedNovels.NovelInstances.Count == 0) LoadedNovels.NovelInstances.Add(new() { ID = 1, Name = "Accidental Distances" }); // Sample
+    LoadedNovels.NovelInstances.Clear();
+    LoadedNovels.NovelInstances.AddRange(DB.I.Get<MNovelInstance>("").OrderBy(a => a.Title).ToList());
+}
+<div class="novel-history">
+    <h3>Open Novel:</h3>
+    <div class="row novel-actions">
+        <div class="col-2"><div class="button" action-name="create-new-novel">New</div></div>
+        <div class="col-8"></div>
+        <div class="col-2"><div class="button" action-name="open-existing-novel">Open</div></div>
+    </div>
+    <div class="novel-list">
+        @if (LoadedNovels.NovelInstances.Count > 0)
+        {
+            foreach (var novel in LoadedNovels.NovelInstances)
+            {
+                <div class="novel-listed row" data-id="@(novel.ID)">
+                    <div class="col-8">@(novel.Title)</div>
+                    <div class="col-4"><em>@(DB.I.GetNumbers((int)novel.ID)[4]) Words</em></div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="row">
+                <div class="col=12">
+                    <em>No Novels Here...</em>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@using NaNoEweb.DBConnection
+@{
+    Layout = null;
+    var counts = DB.I.GetNumbers((int)LoadedNovels.LoadedNovel.ID);
+}
+<p><strong>Word Count:</strong> @(counts[4])</p>
+<p><strong>Chapters:</strong> @(counts[1])</p>
+<p><strong>Paragraphs:</strong> @(counts[0])</p>
+<p><strong>Bookmarks:</strong> @(counts[3])</p>
+<p><strong>Notes:</strong> @(counts[2])</p>

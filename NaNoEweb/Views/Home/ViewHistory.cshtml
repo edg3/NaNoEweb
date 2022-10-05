@@ -1,0 +1,52 @@
+﻿@using NaNoEweb.DBConnection
+@using NaNoEweb.Data
+@using System.Linq
+@{
+    ViewData["Title"] = "View Writing History";
+    // Remember: This is classed as content and certain ways of making it dont make it openable... Error: Can't find View
+}
+<div class="area-history">
+    <div class="row">
+        <div class="col-8">Select a novel:</div>
+        <div class="col-4">
+            <select class="select-novel">
+                <option value="" class="select-novel">Please select a novel...</option>
+                @{
+                    var orderedList = LoadedNovels.NovelInstances.OrderBy(a => a.Title).ToList();
+                    var latestTrackingId = DB.I.Get<TTracking>("ORDER BY id DESC LIMIT 1").First();
+                    if (null != latestTrackingId)
+                    {
+                        var latest = orderedList.Where(a => a.ID == latestTrackingId.NovelInstance_ID) as MNovelInstance;
+                        orderedList.RemoveAll(a => a.ID == latestTrackingId.NovelInstance_ID);
+                        orderedList.Insert(0,latest);
+                    }
+
+                    foreach (var novel in orderedList)
+                    {
+                        <option value="@(novel.ID)">@(novel.Title)</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 novel-history">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <em>
+                TODO notes<br />
+                - Get a way to reorder the list<br />
+                - Get summariest of the total data<br />
+                - Get a way to look at list and summary of 'sections' of the data<br />
+                [Try be JS/Partial based]<br />
+            </em>
+        </div>
+    </div>
+</div>
+<script>
+    $('.select-novel').on('change', function () {
+        $('.novel-history').html('<div class="line">' + $(this).val() + ' TODO: Implement _GetHistory</div>');
+    });
+</script>

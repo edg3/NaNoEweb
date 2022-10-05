@@ -1,0 +1,384 @@
+﻿@using NaNoEweb.DBConnection
+@using NaNoEweb.Data
+@{
+    ViewData["Title"] = "Writing";
+    /* TODO: Maybe, might not - make it so you can move paragraphs up/down, etc. */
+    /* TODO: add 'user position' to MNovelInstance so you can 'open' where you were before. */
+    /* TODO: make it disable 'search for writing error' in edit mode until load complete */
+
+    //LoadedNovels.LoadedNovel;
+    // TODO: make it ajax load everything outwards from position after adding position
+    var ordered = DB.I.GetNovelMap(LoadedNovels.LoadedNovel.ID.ToString());
+    int firstNext = ordered.Count > 0 ? ordered.First().ID : -2;
+    int lastPrev = ordered.Count > 0 ? ordered.Last().ID : -1;
+
+    var counts = DB.I.GetNumbers((int)LoadedNovels.LoadedNovel.ID);
+}
+<div class="area-writing" data-novel="@(LoadedNovels.LoadedNovel.ID)">
+    <div class="totals">
+        <p><strong>Word Count:</strong> @(counts[4])</p>
+        <p><strong>Chapters:</strong> @(counts[1])</p>
+        <p><strong>Paragraphs:</strong> @(counts[0])</p>
+        <p><strong>Bookmarks:</strong> @(counts[3])</p>
+        <p><strong>Notes:</strong> @(counts[2])</p>
+    </div>
+    <div class="notes">
+        <div class="show-items" value="act-notes"><div class="act-notes selected">Notes</div>/<div class="act-chapters">Chapters</div></div>
+        <div class="new-item">+</div>
+        <div class="notes-items">
+            <div class="items-list">
+                <ul>
+                    <li data-id="-1"><em>Create your first item above...</em></li>
+                    @{
+                        // TODO: items here interaction
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="chapter-items">
+            <div class="items-list">
+                <ul>
+                    <li data-id="-1"><em>Create your first item above...</em></li>
+                    @{
+                        // TODO: items here interaction
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="novel-above">
+        <div class="paragraph" data-id="-1" data-prev="-1" data-next="@(firstNext)">
+            <div class="row">
+                <div class="col-12"><h3>@(LoadedNovels.LoadedNovel?.Title)</h3><em>Start of Novel</em></div>
+            </div>
+        </div>
+        @{
+            foreach (var position in ordered)
+            {
+                var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
+                    <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                        <div class="row">
+                            <div class="col-10">
+                                @(DBInterop.ConvertFromSafeString(item.Text))
+                            </div><div class="col-2"><div class="action" action="delete">Delete</div></div>
+                        </div>
+                    </div>
+            }
+        }
+    </div>
+    <div class="novel-writing">
+        <div class="writing-area">
+            <div class="row">
+                <div class="col-10">
+                    <textarea class="writing-box" spellcheck="true"></textarea>
+                </div>
+                <div class="col-2">
+                    <div class="note"><strong>&lt;enter&gt;</strong> to <strong>save what's written</strong></div>
+                    <div class="note"><strong>Normal</strong> text = <strong>Paragraph</strong></div>
+                    <div class="note">'<strong>C:&lt;title&gt;</strong>': <strong>Chapter</strong>, optional</div>
+                    <div class="note">'<strong>N:&lt;text&gt;</strong>': <strong>Note</strong>, needed</div>
+                    <div class="note">'<strong>B:&lt;name&gt;</strong>': <strong>Bookmark</strong>, needed</div>
+                    <div class="note"><input type="checkbox" class="edit-box" /> <strong>Edit Mode</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="novel-below">
+        <div class="paragraph" data-id="-2" data-prev="@(lastPrev)" data-next="-2">
+            <div class="row">
+                <div class="col-12"><em>End of Novel</em></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateTracking() {
+        $.ajax({
+            type: 'POST',
+            url: '../../../Write/Act_UpdateTimeTrack',
+            processData: false,
+            contentType: false
+        }).done(function (e) {
+            //console.log('DEBUG: Updated time tracking...')
+        });
+    }
+    function lowestElement() {
+        var lowest = 0;
+        $(document).find('.paragraph').each(function (i) {
+            if ($(this).attr('data-id') < lowest) {
+                lowest = $(this).attr('data-id');
+            }
+        });
+        return lowest - 2;
+    }
+    var editMode = false;
+    $(document).ready(function () {
+        $('.writing-box').keypress(function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                e.preventDefault();
+                debugger;
+                if (!editMode) {
+                    var content = $('.writing-box').val();
+                    var exploded = content.split('.');
+                    exploded = content.split('.');
+                    content = '';
+                    exploded.forEach(function (it) {
+                        while (it.includes('  ')) it = it.replaceAll('  ', ' ');
+                        var smlr = it.trim();
+                        smlr = smlr.charAt(0).toUpperCase() + smlr.substring(1);
+                        content += smlr + '. ';
+                    });
+                    content = content.replaceAll(' .', '');
+                    content.trim();
+                    $('.writing-box').val('');
+
+                    /* GET ABOVE AND BELOW */
+                    var upper = $('.novel-above');
+                    var below = $('.novel-below');
+                    var upperPara = upper.find('.paragraph').last();
+                    var lowerPara = below.find('.paragraph').first();
+                    var idBefore = upperPara.attr('data-id');
+                    var idAfter = lowerPara.attr('data-id');
+                    var lowerId = lowestElement();
+                    upperPara.attr('data-next', lowerId);
+                    lowerPara.attr('data-prev', lowerId);
+                    /* END GET+UPDATE ABOVE AND BELOW */
+
+                    /* FORM */
+                    var url = 'Write/Act_AddParagraph';
+                    var formData = new FormData();
+                    formData.append('temp_id', lowerId);
+                    formData.append('id_before', idBefore);
+                    formData.append('id_after', idAfter);
+                    var subst = content.substring(0, 2).toLowerCase();
+                    var flag = 'P'; // Paragraph
+                    //debugger;
+                    if (subst == 'c:') {
+                        flag = 'C'; // Chapter
+                        content = content.substring(2);
+                        if (content.trim().length > 0) {
+                            content = ': ' + content;
+                        }
+                        content = 'Chapter' + content;
+                    }
+                    else if (subst == 'n:') {
+                        flag = 'N';
+                        content = content.substring(2);
+                        if (content.trim().length > 0) {
+                            content = ': ' + content;
+                        }
+                        content = 'Note' + content;
+                    }
+                    else if (subst == 'b:') {
+                        flag = 'B';
+                        content = content.substring(2);
+                        if (content.trim().length > 0) {
+                            content = ': ' + content;
+                        }
+                        content = 'Bookmark' + content;
+                    }
+                    formData.append('flag', flag);
+                    formData.append('text', content);
+                    /* END FORM */
+
+                    /* ADD HTML ABOVE */
+                    upper.append('<div class="paragraph ' +
+                        (flag == 'C' ? 'para-chapter' : (flag == 'N' ? 'para-note' : (flag == 'B' ? 'para-bookmark' : ''))) +
+                        '" data-id="' +
+                        lowerId +
+                        '" data-prev="' +
+                        idBefore +
+                        '" data-next="' +
+                        idAfter +
+                        '"><div class="row"><div class="col-10">' +
+                        content +
+                        '</div><div class="col-2"><div class="action" action="delete">Delete</div></div></div></div>');
+
+                    /* INSERT TO DB THEN UPDATE THE IDs */
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).done(function (response) {
+                        if (response.status === "success") {
+                            debugger;
+                            var splt = response.message.split(':');
+                            $(document).find('[data-id="' + splt[0] + '"]').attr('data-id', splt[1]);
+                            $('[data-prev="' + splt[0] + '"]').attr('data-prev', splt[1]);
+                            $('[data-next="' + splt[0] + '"]').attr('data-next', splt[1]);
+                            var updatePrev = $('.paragraph[data-prev=' + splt[1] + ']').first();
+                            var updateNext = $('.paragraph[data-next=' + splt[1] + ']').last();
+                            //debugger;
+                            // Act_UpdateParagraphPreviousID
+                            var url = 'Write/Act_UpdateParagraphPreviousID';
+                            var formData = new FormData();
+                            formData.append('para_id', updatePrev.attr('data-id'));
+                            formData.append('newId', splt[1]);
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                data: formData,
+                                processData: false,
+                                contentType: false
+                            }).done(function (response) {
+                                console.log('next');
+                            });
+                            // Act_UpdateParagraphNextID
+                            url = 'Write/Act_UpdateParagraphNextID';
+                            formData = new FormData();
+                            formData.append('para_id', updateNext.attr('data-id'));
+                            formData.append('newId', splt[1]);
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                data: formData,
+                                processData: false,
+                                contentType: false
+                            }).done(function (response) {
+                                console.log('prev');
+                            });
+                        }
+                        else {
+                            alert('ERROR - Please make a copy of most recent paragraph and reload the page...')
+                        }
+
+                    });
+                }
+                else { // editing save into the above paragraph with the proper format
+                    /* Write/Act_UpdateContentText(string content_id, string new_text) */
+                    var content = $('.writing-box').val();
+                    var exploded = content.split('.');
+                    exploded = content.split('.');
+                    content = '';
+                    exploded.forEach(function (it) {
+                        while (it.includes('  ')) it = it.replaceAll('  ', ' ');
+                        var smlr = it.trim();
+                        smlr = smlr.charAt(0).toUpperCase() + smlr.substring(1);
+                        content += smlr + '. ';
+                    });
+                    content = content.replaceAll(' .', '');
+                    content.trim();
+                    var upper = $('.novel-above');
+                    var id = upper.find('.paragraph').last().attr('data-id');
+                    upper.find('.paragraph').last().find('.col-10').html(content);
+                    var frmUpdate = new FormData();
+                    frmUpdate.append('content_id', id);
+                    frmUpdate.append('new_text', content);
+                    $.ajax({
+                        url: '../../../Write/Act_UpdateContentText',
+                        type: 'POST',
+                        data: frmUpdate,
+                        processData: false,
+                        contentType: false
+                    }).done(function (e) {
+                        console.log('Updated text for MNovelContent');
+                    });
+                }
+                fetch('../../../Write/_UpdateCounts')
+                    .then((result) => { return result.text(); })
+                    .then((content) => { debugger; $('.totals').html(content); });
+
+                updateTracking();
+            }
+        });
+        var trackDelayMousewheel = false;
+        $(document).bind('mousewheel', function (e) {
+            if (e.originalEvent.wheelDelta / 120 > 0) { // up
+                var dropDown = $('.novel-above .paragraph').last();
+                if (dropDown.attr('data-id') == '-1') return;
+                if (editMode && dropDown.attr('data-prev') == '-1') return;
+                $('.novel-above').remove(dropDown);
+                $('.novel-below').prepend(dropDown);
+            }
+            else { // down
+                var pushUp = $('.novel-below .paragraph').first();
+                if (pushUp.attr('data-id') == '-2') return;
+                if (editMode && pushUp.attr('data-id') == '-2') return;
+                $('.novel-below').remove(pushUp);
+                $('.novel-above').append(pushUp);
+            }
+            if (editMode) {
+                var last = $('.novel-above .paragraph .col-10').last();
+                var newEdit = last.html().trim();
+                var parent = last.parent().parent();
+                if (parent.hasClass('para-chapter')) {
+                    newEdit = newEdit.substring(9);
+                }
+                else if (parent.hasClass('para-note')) {
+                    newEdit = newEdit.substring(6);
+                }
+                else if (parent.hasClass('para-bookmark')) {
+                    newEdit = newEdit.substring(10);
+                }
+                $('.writing-box').val(newEdit);
+                $('.writing-box').focus();
+            }
+            if (false == trackDelayMousewheel) {
+                trackDelayMousewheel = true;
+                setTimeout(function () {
+                    updateTracking();
+                    trackDelayMousewheel = false;
+                }, 5000);
+            }
+        });
+        $('.edit-box').change(function () {
+            console.log($('.edit-box')[0].checked);
+            editMode = $('.edit-box')[0].checked;
+            if ($('.novel-above .paragraph').length == 1) {
+                if ($('.novel-below .paragraph').length == 1) {
+                    $('.edit-box')[0].checked = false;
+                    editMode = $('.edit-box')[0].checked;
+                    return;
+                }
+                var pushUp = $('.novel-below .paragraph').first();
+                $('.novel-below').remove(pushUp);
+                $('.novel-above').append(pushUp);
+            }
+            if (editMode) {
+                var t = $('.novel-above .paragraph').last().find('.col-10');
+                var newEdit = t.html().trim();
+                var parent = t.parent().parent();
+                if (parent.hasClass('para-chapter')) {
+                    newEdit = newEdit.substring(9);
+                }
+                else if (parent.hasClass('para-note')) {
+                    newEdit = newEdit.substring(6);
+                }
+                else if (parent.hasClass('para-bookmark')) {
+                    newEdit = newEdit.substring(10);
+                }
+                $('.writing-box').val(newEdit);
+            }
+            else {
+                $('.writing-box').val('');
+            }
+            $('.writing-box').focus();
+
+            updateTracking();
+        });
+        $(document).on('click', '.act-notes', function () {
+            $('.show-items').attr('value', 'act-notes');
+            $('.act-chapters').removeClass('selected');
+            $('.act-notes').addClass('selected');
+            $('.chapter-items').hide();
+            $('.notes-items').show();
+        });
+        $(document).on('click', '.act-chapters', function () {
+            $('.show-items').attr('value', 'act-chapters');
+            $('.act-chapters').addClass('selected');
+            $('.act-notes').removeClass('selected');
+            $('.chapter-items').show();
+            $('.notes-items').hide();
+        });
+
+        $('.chapter-items').hide();
+        $('.writing-box').focus();
+
+        $Spelling.SpellCheckAsYouType('.writing-box');
+
+        updateTracking();
+    });
+</script>

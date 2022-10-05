@@ -1,0 +1,201 @@
+// Variables
+$baseActionBlue: #6CB4EE;
+$baseActionDark: #555;
+$baseComment: #CCC;
+$baseCommentHilight: #00308F;
+
+// Layouts
+body {
+    background-color: #F4F4F4;
+}
+
+.note {
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 216px;
+    padding: 2px;
+    color: $baseComment;
+    margin-left: 4px;
+
+    strong {
+        color: $baseCommentHilight;
+    }
+}
+
+.action {
+    margin-top: 2px;
+    margin-inline: 4px;
+    color: #FFF;
+    width: 68px;
+    text-align: center;
+    padding: 4px 10px 4px 10px;
+    background-color: $baseActionDark;
+
+    &:hover {
+        background-color: $baseActionBlue;
+        cursor: pointer;
+    }
+}
+
+.disabled {
+    background-color: $baseComment;
+
+    &:hover {
+        background-color: $baseComment;
+        cursor: not-allowed;
+    }
+}
+
+input[type="checkbox" i] {
+    margin: 0px;
+}
+
+// Areas
+.novel-above,
+.novel-below,
+.novel-writing {
+    .row {
+        background-color: #FFF;
+        .col-10 {
+            padding: 4px;
+            margin: 4px;
+        }
+    }
+    .paragraph {
+        width: 600px;
+        margin-inline: auto;
+        border-top: 1px solid #EFEFEF;
+    }
+}
+
+.novel-above {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    height: calc(50% - 75px);
+
+    .paragraph {
+        display: none;
+    }
+
+    .paragraph:nth-of-type(1n) {
+        display: block;
+    }
+}
+
+.novel-writing {
+    background-color: #FFF;
+    height: 150px;
+}
+
+.novel-below {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    height: calc(50% - 75px);
+
+    .paragraph:nth-of-type(1n + 5) {
+        display: none;
+    }
+}
+
+.novel-writing .writing-area {
+    width: 600px;
+    margin-inline: auto;
+    padding: 8px;
+}
+
+.writing-box {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 2px;
+    min-width: 100%;
+    min-height: 100%;
+    resize: none;
+    border: 1px solid $baseComment;
+    padding: 4px;
+    border-radius: 5px;
+
+    &:focus {
+        outline: none !important;
+        border: 1px solid $baseActionBlue;
+    }
+}
+
+.row {
+    display: inline-flex;
+    width: 100%;
+
+    .col-1 {
+        width: 8.33333%;
+    }
+
+    .col-2 {
+        width: 16.66666%;
+    }
+
+    .col-3 {
+        width: 26.99999%;
+    }
+
+    .col-4 {
+        width: 33.33332%;
+    }
+
+    .col-5 {
+        width: 41.66665%;
+    }
+
+    .col-6 {
+        width: 49.99998%;
+    }
+
+    .col-7 {
+        width: 58.33331%;
+    }
+
+    .col-8 {
+        width: 66.66664%;
+    }
+
+    .col-9 {
+        width: 74.99997%;
+    }
+
+    .col-10 {
+        width: 83.3333%;
+    }
+
+    .col-11 {
+        width: 91.66663%;
+    }
+
+    .col-12 {
+        width: 99.99996%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .row {
+        display: block;
+
+        .col-1,
+        .col-2,
+        .col-3,
+        .col-4,
+        .col-5,
+        .col-6,
+        .col-7,
+        .col-8,
+        .col-9,
+        .col-10,
+        .col-11,
+        .col-12 {
+            width: 100%;
+        }
+    }
+}

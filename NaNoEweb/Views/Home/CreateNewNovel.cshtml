@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Create New Novel";
+}
+<div class="novel-create-new">
+    <div class="row">
+        <div class="col-2"><div class="button" action-name="novel-history">Back</div></div>
+        <div class="col-10"></div>
+    </div>
+    <h3>Create New Novel:</h3>
+    <div class="row">
+        <div class="col-12">
+            <form id="frmNewNovel" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Act_NewNovel">
+                <div class="row">
+                    <div class="col-3 text-end">Unique Novel Name:</div>
+                    <div class="col-9"><input type="text" id="name" name="name" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-end">Info:</div>
+                    <div class="col-9"><textarea id="info" name="info" rows="4" cols="62"></textarea></div>
+                </div>
+                <div class="row">
+                    <div class="col-9">&nbsp;</div>
+                    <div class="col-3"><input type="button" value="Create" onclick="AjaxFormSubmit()" /></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="success"></div>
+            <div class="error"></div>
+        </div>
+    </div>
+</div>
+<script>
+    function AjaxFormSubmit() {
+        $('#frmNewNovel').find('input[type="button"]').first().prop('disabled', true).addClass('disabled')
+        var url = $('#frmNewNovel').attr('action');
+        var formData = new FormData();
+        formData.append('name', $('#name').val());
+        formData.append('info', $('#info').html())
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+            if (response.status === "success") {
+                $(".success").html(response.message);
+                $(".error").html('');
+
+                setTimeout(function () { window.location.href = "../../../../" }, 3000);
+            }
+            else {
+                console.log(response);
+                $(".error").html('Error: ' + response.message);
+                $(".success").html('');
+                // Stays disabled when success above
+                $('#frmNewNovel').find('input[type="button"]').first().prop('disabled', false).removeClass('disabled');
+            }
+
+        });
+    }
+    $(document).ready(function(){
+        $('form input, form textarea').on('keypress', function (e) {
+            return e.which !== 13;
+        });
+    });
+</script>
