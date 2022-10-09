@@ -13,12 +13,22 @@
                 <option value="" class="select-novel">Please select a novel...</option>
                 @{
                     var orderedList = LoadedNovels.NovelInstances.OrderBy(a => a.Title).ToList();
-                    var latestTrackingId = DB.I.Get<TTracking>("ORDER BY id DESC LIMIT 1").First();
+                    var latestTrackingId = DB.I.Get<TTracking>("ORDER BY id DESC").First(); // TODO: make this a separate unique call since it doesn't work with LIMIT in MSSQL
                     if (null != latestTrackingId)
                     {
-                        var latest = orderedList.Where(a => a.ID == latestTrackingId.NovelInstance_ID) as MNovelInstance;
-                        orderedList.RemoveAll(a => a.ID == latestTrackingId.NovelInstance_ID);
-                        orderedList.Insert(0,latest);
+                        MNovelInstance instance = null;
+                        for (int i = 0; i < orderedList.Count; ++i)
+                            if (orderedList[i].ID == latestTrackingId.NovelInstance_ID)
+                            {
+                                instance = orderedList[i];
+                                break;
+                            }
+
+                        if (null != instance)
+                        {
+                            orderedList.Remove(instance);
+                            orderedList.Insert(0, instance);
+                        }
                     }
 
                     foreach (var novel in orderedList)
@@ -47,6 +57,11 @@
 </div>
 <script>
     $('.select-novel').on('change', function () {
-        $('.novel-history').html('<div class="line">' + $(this).val() + ' TODO: Implement _GetHistory</div>');
+        $.ajax({
+            type: 'GET',
+            url: '../../../Home/_GetHistory?id=' + $(this).val()
+        }).done(function (response) {
+            $('.novel-history').html(response)
+        });
     });
 </script>

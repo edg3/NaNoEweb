@@ -1,6 +1,10 @@
 ﻿@{
     Layout = null;
+
+    var id = Context.Request.Query["id"];
 }
+@Html.Raw(id)
+<br /><br />
 TODO: Implement this which retrieves from DB<br />
 - A way to select dates; as in from Monday last week to midnight sunday end of week for report on blog, etc<br />
 - Show in different order<br />
