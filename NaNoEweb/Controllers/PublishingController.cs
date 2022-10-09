@@ -3,7 +3,7 @@ using NaNoEweb.Data;
 
 namespace NaNoEweb.Controllers
 {
-    public class PublishController : Controller
+    public class PublishingController : Controller
     {
         public IActionResult Index()
         {
