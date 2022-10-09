@@ -1,11 +1,67 @@
-﻿@{
+﻿@using NaNoEweb.DBConnection
+@using NaNoEweb.Data
+@{
     Layout = null;
 
     var id = Context.Request.Query["id"];
+    var trackingLines = DB.I.Get<TTracking>($"WHERE novelinstance_id={id}");
+    var startDate = new DateTime(2000, 1, 1);
+    var totalMinutes = 0;
 }
-@Html.Raw(id)
-<br /><br />
-TODO: Implement this which retrieves from DB<br />
-- A way to select dates; as in from Monday last week to midnight sunday end of week for report on blog, etc<br />
-- Show in different order<br />
-- Want summaries at top: Averages 'daily'; totals; like, 'average 34 words per minute when writing', etc<br />
+<div class="novel-history-data">
+    <div class="row">
+        <div class="col-4"><strong>Total Time:</strong></div>
+        <div class="col-8 total-time"></div>
+    </div>
+    @foreach (var line in trackingLines)
+    {
+        if (startDate.Year < line.SessionStart.Year || startDate.Month < line.SessionStart.Month || startDate.Day < line.SessionStart.Day)
+        {
+            startDate = line.SessionStart;
+            @Html.Raw($"<div class=\"row\"><div class=\"col-12 date-line\"><strong>{startDate.ToShortDateString()}</strong></div></div>")
+        }
+        var minutes = (line.SessionStop - line.SessionStart).TotalMinutes;
+        if (minutes < 1) minutes = 1;
+        totalMinutes += (int)Math.Floor(minutes);
+        @Html.Raw($"<div class=\"row effort-line\"><div class=\"col-2\">{line.SessionStart.ToShortTimeString()}&nbsp;-&nbsp;{line.SessionStop.ToShortTimeString()}<br>{(int)Math.Floor(minutes)} min</div>" +
+            $"<div class=\"col-2\">{(line.WordCount_End - line.WordCount_Start).ToString()} Words</div>" +
+            $"<div class=\"col-2\">{(line.Paragraphs_End - line.Paragraphs_End).ToString()} Paras</div>" +
+            $"<div class=\"col-2\">{(line.Chapters_End - line.Chapters_Start).ToString()} Chaps</div>" +
+            $"<div class=\"col-2\">{(line.Bookmarks_End - line.Bookmarks_Start).ToString()} Bookms</div>" +
+            $"<div class=\"col-2\">{(line.Notes_End - line.Notes_Start).ToString()} Notes</div></div>")
+    }
+</div>
+@{
+    var totalTimeLine = "";
+    var totalHours = (int)Math.Floor(totalMinutes / 60.0);
+    totalMinutes = (int)Math.Floor((double)totalMinutes - totalHours * 60);
+    if (totalHours > 0)
+    {
+        totalTimeLine += $"{totalHours} hours";
+    }
+    if (totalMinutes > 0)
+    {
+        totalTimeLine += (totalTimeLine.Length > 0 ? ", " : "") + $"{totalMinutes} minutes";
+    }
+    if (totalTimeLine.Length > 0) totalTimeLine += " - ";
+    var words = 0;
+    if (trackingLines.Count > 0) {
+        words = trackingLines.Last().WordCount_End;
+    }
+    totalTimeLine += $"{words} words";
+}
+<script>
+    $(document).ready(function(){
+        $('.total-time').html('@Html.Raw(totalTimeLine)');
+    });
+</script>
+<br />
+<br />
+TODO: Implement this which retrieves from DB
+<br />
+- A way to select dates; as in from Monday last week to midnight sunday end of week for report on blog, etc
+<br />
+- Show in different order
+<br />
+- Want summaries at top: Averages 'daily'; totals; like, 'average 34 words per minute when writing', etc
+<br />

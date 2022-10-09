@@ -62,3 +62,26 @@
         width: 480px;
     }
 }
+
+/* History */
+.novel-history-data {
+    overflow: hidden;
+
+    strong {
+        color: $baseActionBlue;
+    }
+
+    .date-line {
+        border-bottom: 1px solid $baseGrey;
+    }
+
+    .effort-line .col-2 {
+        border: 1px dotted $effortColor;
+        font-size: 11px;
+        text-align: center;
+
+        &:first-of-type {
+            color: $effortColor;
+        }
+    }
+}

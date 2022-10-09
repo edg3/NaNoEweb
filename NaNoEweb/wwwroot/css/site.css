@@ -238,6 +238,25 @@ input[type=button]:focus,
   width: 480px;
 }
 
+/* History */
+.novel-history-data {
+  overflow: hidden;
+}
+.novel-history-data strong {
+  color: #6CB4EE;
+}
+.novel-history-data .date-line {
+  border-bottom: 1px solid #EFEFEF;
+}
+.novel-history-data .effort-line .col-2 {
+  border: 1px dotted #9eaedb;
+  font-size: 11px;
+  text-align: center;
+}
+.novel-history-data .effort-line .col-2:first-of-type {
+  color: #9eaedb;
+}
+
 /* Writing area */
 body:has(.area-writing) {
   background-color: #F9F9F9;
