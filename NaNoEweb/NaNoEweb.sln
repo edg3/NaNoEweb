@@ -19,6 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaNoEwebMobile.DBConnection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C426BDBA-0941-4AF7-928B-FECC982AD9FB}"
 	ProjectSection(SolutionItems) = preProject
+		..\db-backup.sql = ..\db-backup.sql
 		..\example_table_mssql.sql = ..\example_table_mssql.sql
 		..\readme.md = ..\readme.md
 	EndProjectSection

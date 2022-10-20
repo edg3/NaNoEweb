@@ -69,13 +69,25 @@ public class WriteController : Controller
     public JsonResult Act_UpdateTimeTrack()
     {
         var lastTrack = DB.I.GetLatestTracking((int)LoadedNovels.LoadedNovel.ID);
+        var counts = DB.I.GetNumbers((int)LoadedNovels.LoadedNovel.ID);
+        /* Paragraphs, Chapters, Notes, Bookmarks, Wordcount*/
         if (null == lastTrack)
         {
             var insert = new TTracking()
             {
                 NovelInstance_ID = (int)LoadedNovels.LoadedNovel.ID,
                 SessionStart = DateTime.Now,
-                SessionStop = DateTime.Now
+                SessionStop = DateTime.Now,
+                Paragraphs_Start = counts[0],
+                Paragraphs_End = counts[0],
+                Chapters_Start = counts[1],
+                Chapters_End = counts[1],
+                Notes_Start = counts[2],
+                Notes_End = counts[2],
+                Bookmarks_Start = counts[3],
+                Bookmarks_End = counts[3],
+                WordCount_Start = counts[4],
+                WordCount_End = counts[4]
             };
             DB.I.Insert(insert);
         }
@@ -85,6 +97,11 @@ public class WriteController : Controller
             {
                 // Update it
                 lastTrack.SessionStop = DateTime.Now;
+                lastTrack.Paragraphs_End = counts[0];
+                lastTrack.Chapters_End = counts[1];
+                lastTrack.Notes_End = counts[2];
+                lastTrack.Bookmarks_End = counts[3];
+                lastTrack.WordCount_End = counts[4];
                 DB.I.Update(lastTrack);
             }
             else
@@ -93,7 +110,17 @@ public class WriteController : Controller
                 {
                     NovelInstance_ID = (int)LoadedNovels.LoadedNovel.ID,
                     SessionStart = DateTime.Now,
-                    SessionStop = DateTime.Now
+                    SessionStop = DateTime.Now,
+                    Paragraphs_Start = counts[0],
+                    Paragraphs_End = counts[0],
+                    Chapters_Start = counts[1],
+                    Chapters_End = counts[1],
+                    Notes_Start = counts[2],
+                    Notes_End = counts[2],
+                    Bookmarks_Start = counts[3],
+                    Bookmarks_End = counts[3],
+                    WordCount_Start = counts[4],
+                    WordCount_End = counts[4]
                 };
                 DB.I.Insert(insert);
             }

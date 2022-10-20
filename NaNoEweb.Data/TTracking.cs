@@ -8,7 +8,6 @@ namespace NaNoEweb.Data
         public int NovelInstance_ID { get; set; }
         public DateTime SessionStart { get; set; }
         public DateTime SessionStop { get; set; }
-        // TODO: implement into DB
         public int WordCount_Start { get; set; }
         public int WordCount_End { get; set; }
         public int Chapters_Start { get; set; }

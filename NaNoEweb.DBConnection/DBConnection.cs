@@ -94,7 +94,7 @@ public class DBConnection
                 break;
                 case "TTracking":
                 {
-                    cmd.CommandText = $"SELECT [id],[novelinstance_id],[time_start],[time_end] FROM [TTracking] {data}";
+                    cmd.CommandText = $"SELECT [id],[novelinstance_id],[session_start],[session_end],[wordcount_start],[wordcount_end],[chapters_start],[chapters_end],[paragraphs_start],[paragraphs_end],[bookmarks_start],[bookmarks_end],[notes_start],[notes_end] FROM [TTracking] {data}";
                     using (var read = cmd.ExecuteReader())
                     {
                         while (read.Read())
@@ -104,7 +104,17 @@ public class DBConnection
                                 ID = (uint)read.GetInt32(0),
                                 NovelInstance_ID = read.GetInt32(1),
                                 SessionStart = DateTime.Parse(DBInterop.ConvertFromSafeString(read.GetString(2))),
-                                SessionStop = DateTime.Parse(DBInterop.ConvertFromSafeString(read.GetString(3)))
+                                SessionStop = DateTime.Parse(DBInterop.ConvertFromSafeString(read.GetString(3))),
+                                WordCount_Start = read.GetInt32(4),
+                                WordCount_End = read.GetInt32(5),
+                                Chapters_Start = read.GetInt32(6),
+                                Chapters_End = read.GetInt32(7),
+                                Paragraphs_Start = read.GetInt32(8),
+                                Paragraphs_End = read.GetInt32(9),
+                                Bookmarks_Start = read.GetInt32(10),
+                                Bookmarks_End = read.GetInt32(11),
+                                Notes_Start = read.GetInt32(12),
+                                Notes_End = read.GetInt32(13),
                             }, typeof(T));
                             answer.Add(innerT);
                         }
@@ -172,7 +182,7 @@ public class DBConnection
                 case "TTracking":
                     var t3 = update as TTracking;
                     if (t3.ID == 0) throw new Exception();
-                    cmd.CommandText = $"UPDATE [TTracking] SET [time_end]='{DBInterop.ConvertToSafeString(t3.SessionStop.ToString())}' WHERE [id]={t3.ID}";
+                    cmd.CommandText = $"UPDATE [TTracking] SET [session_end]='{DBInterop.ConvertToSafeString(t3.SessionStop.ToString())}',[wordcount_end]={t3.WordCount_End},[chapters_end]={t3.Chapters_End},[paragraphs_end]={t3.Paragraphs_End},[bookmarks_end]={t3.Bookmarks_End},[notes_end]={t3.Notes_End} WHERE [id]={t3.ID}";
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                     return;
@@ -229,7 +239,7 @@ public class DBConnection
                 case "TTracking":
                     var t3 = insert as TTracking;
                     if (t3.ID != 0) throw new ArgumentException();
-                    cmd.CommandText = $"INSERT INTO [TTracking] ([novelinstance_id],[time_start],[time_end]) VALUES ({t3.NovelInstance_ID},'{DBInterop.ConvertToSafeString(t3.SessionStart.ToString())}','{DBInterop.ConvertToSafeString(t3.SessionStop.ToString())}')";
+                    cmd.CommandText = $"INSERT INTO [TTracking] ([novelinstance_id],[session_start],[session_end],[wordcount_start],[wordcount_end],[chapters_start],[chapters_end],[paragraphs_start],[paragraphs_end],[bookmarks_start],[bookmarks_end],[notes_start],[notes_end]) VALUES ({t3.NovelInstance_ID},'{DBInterop.ConvertToSafeString(t3.SessionStart.ToString())}','{DBInterop.ConvertToSafeString(t3.SessionStop.ToString())}',{t3.WordCount_Start},{t3.WordCount_End},{t3.Chapters_Start},{t3.Chapters_End},{t3.Paragraphs_Start},{t3.Paragraphs_End},{t3.Bookmarks_Start},{t3.Bookmarks_End},{t3.Notes_Start},{t3.Notes_End})";
                     cmd.ExecuteNonQuery();
                     using (var updateId = new SqlCommand())
                     {
