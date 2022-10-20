@@ -56,13 +56,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                    <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                        <div class="row">
-                            <div class="col-10">
-                                @(DBInterop.ConvertFromSafeString(item.Text))
-                            </div><div class="col-2"><div class="action" action="delete">Delete</div></div>
-                        </div>
+                <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                    <div class="row">
+                        <div class="col-10">
+                            @(DBInterop.ConvertFromSafeString(item.Text))
+                        </div><div class="col-2"><div class="action" action="delete">Delete</div></div>
                     </div>
+                </div>
             }
         }
     </div>
@@ -377,8 +377,12 @@
         $('.chapter-items').hide();
         $('.writing-box').focus();
 
-        $Spelling.SpellCheckAsYouType('.writing-box');
+        //$Spelling.SpellCheckAsYouType('.writing-box');
 
         updateTracking();
+
+        $(document).on('click', '.new-item', function () {
+            alert("A");
+        });
     });
 </script>
