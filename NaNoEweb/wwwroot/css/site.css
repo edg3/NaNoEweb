@@ -22,7 +22,7 @@ nav a, nav a:visited {
   color: #000;
 }
 nav a:hover {
-  color: #6CB4EE;
+  color: #0067bb;
 }
 nav .navbar-brand {
   width: 100px;
@@ -55,7 +55,7 @@ input[type=button],
 input[type=button]:hover,
 .button:hover {
   cursor: pointer;
-  background-color: #6CB4EE;
+  background-color: #0067bb;
 }
 input[type=button]:focus,
 .button:focus {
@@ -65,7 +65,7 @@ input[type=button]:focus,
 /* items-list */
 .notes {
   background: #FFF;
-  border: 1px solid #EFEFEF;
+  border: 1px solid #b5b5b5;
   padding: 4px;
 }
 
@@ -172,7 +172,7 @@ input[type=button]:focus,
 }
 
 .success {
-  color: #6CB4EE;
+  color: #0067bb;
   font-style: italic;
   font-size: 12px;
   text-align: center;
@@ -215,7 +215,7 @@ input[type=button]:focus,
   margin-inline: 50px;
   padding-top: 8px;
   font-weight: 800;
-  color: #6CB4EE;
+  color: #0067bb;
 }
 
 /* open existing novel */
@@ -225,7 +225,7 @@ input[type=button]:focus,
   border: 1px solid #EFEFEF;
 }
 .novel-listed:hover {
-  background-color: #6CB4EE;
+  background-color: #0067bb;
   color: #FFF;
   cursor: pointer;
 }
@@ -243,10 +243,10 @@ input[type=button]:focus,
   overflow: hidden;
 }
 .novel-history-data strong {
-  color: #6CB4EE;
+  color: #0067bb;
 }
 .novel-history-data .date-line {
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid #b5b5b5;
 }
 .novel-history-data .effort-line .col-2 {
   border: 1px dotted #9eaedb;
@@ -290,7 +290,7 @@ body:has(.area-writing) {
   background-color: #555;
 }
 .area-writing .action:hover {
-  background-color: #6CB4EE;
+  background-color: #0067bb;
   cursor: pointer;
 }
 .area-writing .disabled {
@@ -376,14 +376,17 @@ body:has(.area-writing) {
 }
 .area-writing .writing-box:focus {
   outline: none !important;
-  border: 1px solid #6CB4EE;
+  border: 1px solid #0067bb;
 }
 .area-writing .totals {
   position: absolute;
   left: 16px;
-  color: #6CB4EE;
+  color: #0067bb;
   width: 200px;
   text-align: end;
+  background-color: #FFF;
+  border: 1px solid #b5b5b5;
+  padding: 8px;
 }
 .area-writing .totals strong {
   color: #555;
@@ -393,7 +396,7 @@ body:has(.area-writing) {
 .area-writing .notes {
   position: absolute;
   right: 16px;
-  color: #6CB4EE;
+  color: #0067bb;
   width: 250px;
   text-align: start;
 }
@@ -406,14 +409,14 @@ body:has(.area-writing) {
   border-radius: 15px;
 }
 .area-writing .notes .act-notes.selected, .area-writing .notes .act-chapters.selected {
-  background-color: #6CB4EE;
+  background-color: #0067bb;
   color: #FFF;
 }
 .area-writing .notes .show-items {
   text-align: center;
 }
 .area-writing .notes .new-item {
-  background-color: #6CB4EE;
+  background-color: #0067bb;
   margin-left: 110px;
   width: 16px;
   color: #FFF;
@@ -431,10 +434,10 @@ body:has(.area-writing) {
 .area-writing .notes .notes-items ul, .area-writing .notes .chapter-items ul {
   list-style: none;
   height: 100px;
-  border: 1px dotted #EFEFEF;
+  border: 1px dotted #b5b5b5;
 }
 .area-writing .notes .notes-items ul li:hover, .area-writing .notes .chapter-items ul li:hover {
-  background-color: #6CB4EE;
+  background-color: #0067bb;
   color: #FFF;
   cursor: pointer;
 }
@@ -442,17 +445,17 @@ body:has(.area-writing) {
 .paragraph.para-chapter .col-10 {
   font-weight: 800;
   font-size: 16px;
-  color: #6CB4EE;
+  color: #0067bb;
 }
 .paragraph.para-note .col-10 {
   font-weight: 200;
   font-size: 12px;
-  color: #EFEFEF;
+  color: #b5b5b5;
 }
 .paragraph.para-bookmark .col-10 {
   font-weight: 600;
   font-size: 14px;
-  color: #6CB4EE;
+  color: #0067bb;
 }
 .paragraph .col-2 {
   position: relative;
@@ -468,3 +471,5 @@ ul {
 ul li {
   padding: 2px;
 }
+
+/* TODO: 1280px wide styles*/
