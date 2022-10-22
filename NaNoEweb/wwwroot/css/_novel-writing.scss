@@ -243,3 +243,10 @@ body:has(.area-writing) {
         }
     }
 }
+
+
+@media screen and (max-width: 1062px) {
+    .totals {
+        display: none;
+    }
+}

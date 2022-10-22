@@ -465,6 +465,11 @@ body:has(.area-writing) {
   bottom: 0;
 }
 
+@media screen and (max-width: 1062px) {
+  .totals {
+    display: none;
+  }
+}
 ul {
   padding-inline-start: 0px;
 }

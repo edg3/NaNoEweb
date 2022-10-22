@@ -3,8 +3,8 @@
     Layout = null;
     var counts = DB.I.GetNumbers((int)LoadedNovels.LoadedNovel.ID);
 }
-<p><div class="row"><div class="col-6"><strong>Word Count:</strong></div><div class="col-8">@(counts[4])</div></div></p>
-<p><div class="row"><div class="col-6"><strong>Chapters:</strong></div><div class="col-8">@(counts[1])</div></div></p>
-<p><div class="row"><div class="col-6"><strong>Paragraphs:</strong></div><div class="col-8">@(counts[0])</div></div></p>
-<p><div class="row"><div class="col-6"><strong>Bookmarks:</strong></div><div class="col-8">@(counts[3])</div></div></p>
-<p><div class="row"><div class="col-6"><strong>Notes:</strong></div><div class="col-8">@(counts[2])</div></div></p>
+<p><div class="row"><div class="col-8"><strong>Word Count:</strong></div><div class="col-4">@(counts[4])</div></div></p>
+<p><div class="row"><div class="col-8"><strong>Chapters:</strong></div><div class="col-4">@(counts[1])</div></div></p>
+<p><div class="row"><div class="col-8"><strong>Paragraphs:</strong></div><div class="col-4">@(counts[0])</div></div></p>
+<p><div class="row"><div class="col-8"><strong>Bookmarks:</strong></div><div class="col-4">@(counts[3])</div></div></p>
+<p><div class="row"><div class="col-8"><strong>Notes:</strong></div><div class="col-4">@(counts[2])</div></div></p>
