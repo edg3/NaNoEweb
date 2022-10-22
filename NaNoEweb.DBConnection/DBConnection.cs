@@ -248,6 +248,12 @@ public class DBConnection
                         t3.ID = (uint)((int)updateId.ExecuteScalar());
                     }
                     return;
+                case "MNovelDeletion":
+                    var t4 = insert as MNovelDeletion;
+                    if (t4.ID != 0) throw new ArgumentException();
+                    cmd.CommandText = $"INSERT INTO MNovelDeletion ([novelinstance_id],[wherewas_before],[wherewas_before_text],[wherewas_after],[wherewas_after_text],[text],[flag],[whenwas_deleted]) VALUES({t4.Novel_Id},{t4.Id_Before},'{DBInterop.ConvertToSafeString(t4.Content_Before)}',{t4.Id_After},'{DBInterop.ConvertToSafeString(t4.Content_After)}','{DBInterop.ConvertToSafeString(t4.Content_Deleted)}','{DBInterop.ConvertToSafeString(t4.Content_Type)}','{DBInterop.ConvertToSafeString(DateTime.Now.ToString())}')";
+                    cmd.ExecuteNonQuery();
+                    return;
             }
         }
 
@@ -352,6 +358,38 @@ public class DBConnection
         }
 
         return answer;
+    }
+
+    public void DeleteAndTrack(int loaded_id, int id, string curContent, string dataType, int prev, string prevContent, int next, string nextContent)
+    {
+        Insert(new MNovelDeletion()
+        {
+            Novel_Id = loaded_id,
+            Id_Deleted = id,
+            Content_Deleted = curContent,
+            Content_Type = dataType,
+            Id_Before = prev,
+            Content_Before = prevContent,
+            Id_After = next,
+            Content_After = nextContent
+        });
+
+        if (prev > 0)
+        {
+            var paragraph = this.Get<MNovelContent>($"WHERE id={prev}").First();
+            paragraph.ID_After = next;
+            Update(paragraph);
+        }
+
+        if (next > 0)
+        {
+            var paragraph = this.Get<MNovelContent>($"WHERE id={next}").First();
+            paragraph.ID_Before = prev;
+            Update(paragraph);
+        }
+
+        var cmd = new SqlCommand($"DELETE FROM MNovelContent WHERE id={id}", _connection);
+        cmd.ExecuteNonQuery();
     }
 
     /// <summary>

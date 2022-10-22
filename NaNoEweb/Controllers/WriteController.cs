@@ -137,4 +137,26 @@ public class WriteController : Controller
 
         return Json(new { status = "success" });
     }
+
+    public JsonResult Act_RemoveParagraph(string id, string prev, string next, string curContent, string prevContent, string nextContent, string dataType)
+    {
+        if (LoadedNovels.LoadedNovel == null) return Json(new { status = "failure" });
+
+        int _id = int.Parse(id);
+        int _prev = int.Parse(prev);
+        int _next = int.Parse(next);
+        if (curContent.Contains("\r\n")) curContent = curContent.Replace("\r\n", "");
+        curContent = curContent.Trim();
+        if (prevContent.Contains("\r\n")) prevContent = prevContent.Replace("\r\n", "");
+        prevContent = prevContent.Trim();
+        if (nextContent.Contains("\r\n")) nextContent = nextContent.Replace("\r\n", "");
+        nextContent = nextContent.Trim();
+        if (prevContent == "undefined") prevContent = "[Novel Start]";
+        if (nextContent == "undefined") nextContent = "[Novel End]";
+        var _dataType = dataType.Split(' ').Last();
+
+        DB.I?.DeleteAndTrack((int)LoadedNovels.LoadedNovel.ID, _id, curContent, _dataType, _prev, prevContent, _next, nextContent);
+
+        return Json(new { status = "success" });
+    }
 }

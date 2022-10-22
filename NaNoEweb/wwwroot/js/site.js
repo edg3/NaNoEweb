@@ -31,10 +31,6 @@ $(document).on('click', '[action-name="novel-history"]', function () {
     window.location = "../../../Home/";
 });
 
-$(document).on('click', '.action[action="delete"]', function () {
-    alert('delete this paragraph');
-});
-
 $(document).on('click', '[action-name="close-current-novel"]', function () {
     $.ajax({
         type: 'POST',

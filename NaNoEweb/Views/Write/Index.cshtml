@@ -30,7 +30,7 @@
                 <ul>
                     <li data-id="-1"><em>Create your first item above...</em></li>
                     @{
-                        // TODO: items here interaction
+            // TODO: items here interaction
                     }
                 </ul>
             </div>
@@ -40,7 +40,7 @@
                 <ul>
                     <li data-id="-1"><em>Create your first item above...</em></li>
                     @{
-                        // TODO: items here interaction
+            // TODO: items here interaction
                     }
                 </ul>
             </div>
@@ -56,13 +56,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                    <div class="row">
-                        <div class="col-10">
-                            @(DBInterop.ConvertFromSafeString(item.Text))
-                        </div><div class="col-2"><div class="action" action="delete">Delete</div></div>
-                    </div>
-                </div>
+                            <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                                <div class="row">
+                                    <div class="col-10">
+                                        @(DBInterop.ConvertFromSafeString(item.Text))
+                                    </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                                </div>
+                            </div>
             }
         }
     </div>
@@ -100,6 +100,9 @@
             contentType: false
         }).done(function (e) {
             //console.log('DEBUG: Updated time tracking...')
+        }).error(function (e) {
+            // TODO: find my logic flaw
+            debugger;
         });
     }
     function lowestElement() {
@@ -193,7 +196,7 @@
                         idAfter +
                         '"><div class="row"><div class="col-10">' +
                         content +
-                        '</div><div class="col-2"><div class="action" action="delete">Delete</div></div></div></div>');
+                        '</div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div></div></div>');
 
                     /* INSERT TO DB THEN UPDATE THE IDs */
                     $.ajax({
@@ -377,12 +380,49 @@
         $('.chapter-items').hide();
         $('.writing-box').focus();
 
-        //$Spelling.SpellCheckAsYouType('.writing-box');
-
-        updateTracking();
+        $(document).on('click', '.action[action="delete-paragraph"]', function () {
+            //console.log($(this).parent().parent().parent());
+            var block = $(this).parent().parent().parent();
+            var id = block.attr('data-id');
+            var preId = block.attr('data-prev');
+            var nexId = block.attr('data-next');
+            var curContent = $('[data-id="' + id + '"] .col-10').html();
+            var preContent = $('[data-id="' + preId + '"] .col-10').html();
+            var nexContent = $('[data-id="' + nexId + '"] .col-10').html();
+            var dataType = $('[data-id="' + id + '"]').attr('class');
+            var url = "../../../Write/Act_RemoveParagraph";
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('prev', preId);
+            formData.append('next', nexId);
+            formData.append('curContent', curContent);
+            formData.append('prevContent', preContent);
+            formData.append('nextContent', nexContent);
+            formData.append('dataType', dataType);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false
+            }).done(function (response) {
+                if (response.status === "success") {
+                    $('[data-id="' + preId + '"]').attr('data-next', nexId);
+                    $('[data-id="' + nexId + '"]').attr('data-prev', preId);
+                    $('[data-id="' + id + '"]').remove();
+                    debugger;
+                    updateTracking();
+                }
+            });
+        });
 
         $(document).on('click', '.new-item', function () {
             alert("A");
         });
+
+        //$Spelling.SpellCheckAsYouType('.writing-box');
+
+        updateTracking();
+
     });
 </script>
