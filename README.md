@@ -30,3 +30,7 @@ Get Errors suggestions up in edit mode:
 
 Test:
 - Do a writing challenge
+
+---
+Completed:
+- Sorted deletes and visible counts updates
