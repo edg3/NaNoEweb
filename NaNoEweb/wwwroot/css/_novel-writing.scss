@@ -244,6 +244,12 @@ body:has(.area-writing) {
     }
 }
 
+.new-note-box,
+.new-chapter-box {
+    margin: 2px;
+    padding: 4px;
+    border: 1px dotted $baseGrey;
+}
 
 @media screen and (max-width: 1062px) {
     .totals {

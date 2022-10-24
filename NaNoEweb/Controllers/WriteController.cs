@@ -159,4 +159,24 @@ public class WriteController : Controller
 
         return Json(new { status = "success" });
     }
+
+    public JsonResult Act_AddChapterNote(string title, string firstNote)
+    {
+        var countChaptersInNotes = DB.I.Get<MNovelChapter>("").Count;
+        var newChapterInNotes = new MNovelChapter()
+        {
+            Title = title,
+            OrderPosition = countChaptersInNotes + 1
+        };
+        DB.I.Insert(newChapterInNotes);
+
+        var chapterInNotesNote = new MNovelChapterNote()
+        {
+            Note = firstNote,
+            NovelChapter_Id = (int)newChapterInNotes.ID
+        };
+        DB.I.Insert(chapterInNotesNote);
+
+        return Json(new { status = "success" });
+    }
 }

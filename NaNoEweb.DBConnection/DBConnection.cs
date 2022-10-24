@@ -122,6 +122,41 @@ public class DBConnection
                     }
                 }
                 break;
+                case "MNovelChapter":
+                    cmd.CommandText = $"SELECT [id],[novelinstance_id],[title],[orderposition] FROM [MNovelChapter] {data}";
+                    using (var read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            dynamic innerT = Convert.ChangeType(new MNovelChapter()
+                            {
+                                ID = (uint)read.GetInt32(0),
+                                NovelInstance_Id = read.GetInt32(1),
+                                Title = DBInterop.ConvertFromSafeString(read.GetString(2)),
+                                OrderPosition = read.GetInt32(3)
+                            }, typeof(T));
+                            answer.Add(innerT);
+                        }
+                        read.Close();
+                    }
+                    break;
+                case "MNovelChapterNote":
+                    cmd.CommandText = $"SELECT [id],[novelchapter_id],[note] FROM [MNovelChapterNote] {data}";
+                    using (var read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            dynamic innerT = Convert.ChangeType(new MNovelChapterNote()
+                            {
+                                ID = (uint)read.GetInt32(0),
+                                NovelChapter_Id = read.GetInt32(1),
+                                Note = DBInterop.ConvertFromSafeString(read.GetString(2))
+                            }, typeof(T));
+                            answer.Add(innerT);
+                        }
+                        read.Close();
+                    }
+                    break;
             }
         }
 
@@ -253,6 +288,30 @@ public class DBConnection
                     if (t4.ID != 0) throw new ArgumentException();
                     cmd.CommandText = $"INSERT INTO MNovelDeletion ([novelinstance_id],[wherewas_before],[wherewas_before_text],[wherewas_after],[wherewas_after_text],[text],[flag],[whenwas_deleted]) VALUES({t4.Novel_Id},{t4.Id_Before},'{DBInterop.ConvertToSafeString(t4.Content_Before)}',{t4.Id_After},'{DBInterop.ConvertToSafeString(t4.Content_After)}','{DBInterop.ConvertToSafeString(t4.Content_Deleted)}','{DBInterop.ConvertToSafeString(t4.Content_Type)}','{DBInterop.ConvertToSafeString(DateTime.Now.ToString())}')";
                     cmd.ExecuteNonQuery();
+                    return;
+                case "MNovelChapter":
+                    var t5 = insert as MNovelChapter;
+                    if (t5.ID != 0) throw new ArgumentException();
+                    cmd.CommandText = $"INSERT INTO MNovelChapter ([novelinstance_id],[title],[orderposition]) VALUES ({t5.NovelInstance_Id},'{DBInterop.ConvertToSafeString(t5.Title)}',{t5.OrderPosition})";
+                    cmd.ExecuteNonQuery();
+                    using (var updateId = new SqlCommand())
+                    {
+                        updateId.Connection = _connection;
+                        updateId.CommandText = $"SELECT MAX(id) FROM [MNovelChapter]";
+                        t5.ID = (uint)((int)updateId.ExecuteScalar());
+                    }
+                    return;
+                case "MNovelChapterNote":
+                    var t6 = insert as MNovelChapterNote;
+                    if (t6.ID != 0) throw new ArgumentException();
+                    cmd.CommandText = $"INSERT INTO MNovelChapterNote ([novelchapter_id],[note]) VALUES ({t6.NovelChapter_Id},'{DBInterop.ConvertToSafeString(t6.Note)}')";
+                    cmd.ExecuteNonQuery();
+                    using (var updateId = new SqlCommand())
+                    {
+                        updateId.Connection = _connection;
+                        updateId.CommandText = $"SELECT MAX(id) FROM [MNovelChapterNote]";
+                        t6.ID = (uint)((int)updateId.ExecuteScalar());
+                    }
                     return;
             }
         }

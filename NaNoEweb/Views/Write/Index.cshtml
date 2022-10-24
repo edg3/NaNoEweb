@@ -30,7 +30,7 @@
                 <ul>
                     <li data-id="-1"><em>Create your first item above...</em></li>
                     @{
-            // TODO: items here interaction
+                        // TODO: items here interaction
                     }
                 </ul>
             </div>
@@ -38,12 +38,36 @@
         <div class="chapter-items">
             <div class="items-list">
                 <ul>
-                    <li data-id="-1"><em>Create your first item above...</em></li>
                     @{
-            // TODO: items here interaction
+                        var lstChapterNotes = DB.I.Get<MNovelChapter>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
+                        if (lstChapterNotes.Count == 0)
+                        {
+                            <li data-id="-1"><em>Create your first item above...</em></li>
+                        }
+                        else
+                        {
+                            foreach (var chapterNote in lstChapterNotes.OrderBy(a => a.OrderPosition))
+                            {
+                                <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
+                            }
+                        }
                     }
                 </ul>
             </div>
+        </div>
+        <div class="new-chapter-box" style="display: none;">
+            <form id="frmNewChapterNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_NewChapterNote">
+                Title:<br />
+                <input type="text" id="chapter-title" name="chapter-title" /><br />
+                <br />
+                1st note:<br />
+                <input type="text" id="chapter-note" name="chapter-note" /><br />
+                <br />
+                <input type="button" value="Add" onclick="AjaxChapterFormSubmit()" /><br />
+            </form>
+        </div>
+        <div class="new-note-box" style="display: none;">
+            Create a new note here
         </div>
     </div>
     <div class="novel-above">
@@ -365,6 +389,8 @@
             $('.act-notes').addClass('selected');
             $('.chapter-items').hide();
             $('.notes-items').show();
+            $('.new-chapter-box').attr('style', 'display:none;');
+            $('.new-note-box').attr('style', 'display:none;');
         });
         $(document).on('click', '.act-chapters', function () {
             $('.show-items').attr('value', 'act-chapters');
@@ -372,6 +398,8 @@
             $('.act-notes').removeClass('selected');
             $('.chapter-items').show();
             $('.notes-items').hide();
+            $('.new-chapter-box').attr('style', 'display:none;');
+            $('.new-note-box').attr('style', 'display:none;');
         });
 
         $('.chapter-items').hide();
@@ -414,8 +442,38 @@
         });
 
         $(document).on('click', '.new-item', function () {
-            alert("A");
+            if ($('.act-chapters').hasClass('selected')) {
+                $('.new-chapter-box').attr('style', '');
+            }
+            else {
+                $('.new-note-box').attr('style', '');
+            }
         });
+
+        $(document).on('click', '.chapter-note-item', function () {
+            console.log('Load chapter notes:' + $(this).attr('data-id'));
+        });
+
+        function AjaxFormSubmit() {
+            $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled')
+            var url = $('#frmNewChapterNote').attr('action');
+            var formData = new FormData();
+            formData.append('chaptertitle', $('#chapter-title').val());
+            formData.append('chapternote', $('#chapter-note').html())
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false
+            }).done(function (response) {
+                if (response.status === "success") {
+                    alert("Chapter supposedly added");
+                }
+
+            });
+        }
 
         //$Spelling.SpellCheckAsYouType('.writing-box');
 
