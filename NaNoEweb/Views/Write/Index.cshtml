@@ -42,13 +42,13 @@
                         var lstChapterNotes = DB.I.Get<MNovelChapter>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstChapterNotes.Count == 0)
                         {
-                                <li data-id="-1"><em>Create your first item above...</em></li>
+                                    <li data-id="-1"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var chapterNote in lstChapterNotes.OrderBy(a => a.OrderPosition))
                             {
-                                    <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
+                                        <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
                             }
                         }
                     }
@@ -81,13 +81,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                    <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                        <div class="row">
-                            <div class="col-10">
-                                @(DBInterop.ConvertFromSafeString(item.Text))
-                            </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                        <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                            <div class="row">
+                                <div class="col-10">
+                                    @(DBInterop.ConvertFromSafeString(item.Text))
+                                </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                            </div>
                         </div>
-                    </div>
             }
         }
     </div>
@@ -128,7 +128,7 @@
         });
         fetch('../../../Write/_UpdateCounts')
             .then((result) => { return result.text(); })
-            .then((content) => { debugger; $('.totals').html(content); });
+            .then((content) => { $('.totals').html(content); });
     }
     function lowestElement() {
         var lowest = 0;
@@ -140,7 +140,7 @@
         return lowest - 2;
     }
     function AjaxFormChapterNoteSubmit() {
-        debugger;
+        //debugger;
         $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled')
         var url = $('#frmNewChapterNote').attr('action');
         var formData = new FormData();
@@ -154,7 +154,7 @@
             processData: false,
             contentType: false
         }).done(function (response) {
-            debugger;
+            //debugger;
             if (response.status === "success") {
                 var id = response.id;
                 var title = $('#chapter-title').val();
@@ -179,7 +179,7 @@
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code == 13) {
                 e.preventDefault();
-                debugger;
+                //debugger;
                 if (!editMode) {
                     var content = $('.writing-box').val();
                     var exploded = content.split('.');
@@ -266,7 +266,7 @@
                         contentType: false
                     }).done(function (response) {
                         if (response.status === "success") {
-                            debugger;
+                            //debugger;
                             var splt = response.message.split(':');
                             $(document).find('[data-id="' + splt[0] + '"]').attr('data-id', splt[1]);
                             $('[data-prev="' + splt[0] + '"]').attr('data-prev', splt[1]);
@@ -345,6 +345,9 @@
         });
         var trackDelayMousewheel = false;
         $(document).bind('mousewheel', function (e) {
+            // No scroll on main novel when mouse over notes area
+            if (isOnNotes) return;
+            // Otherwise normal scroll, yay
             if (e.originalEvent.wheelDelta / 120 > 0) { // up
                 var dropDown = $('.novel-above .paragraph').last();
                 if (dropDown.attr('data-id') == '-1') return;
@@ -384,7 +387,7 @@
             }
         });
         $('.edit-box').change(function () {
-            console.log($('.edit-box')[0].checked);
+            //console.log($('.edit-box')[0].checked);
             editMode = $('.edit-box')[0].checked;
             if ($('.novel-above .paragraph').length == 1) {
                 if ($('.novel-below .paragraph').length == 1) {
@@ -470,7 +473,7 @@
                     $('[data-id="' + preId + '"]').attr('data-next', nexId);
                     $('[data-id="' + nexId + '"]').attr('data-prev', preId);
                     $('[data-id="' + id + '"]').remove();
-                    debugger;
+                    //debugger;
                     updateTracking();
                 }
             });

@@ -252,6 +252,8 @@ body:has(.area-writing) {
 }
 
 .items-view {
+    border: 1px dotted $baseGrey;
+
     .chapter-note {
         span {
             font-size: 14px;
@@ -281,9 +283,10 @@ body:has(.area-writing) {
     }
 
     .chapter-items-list {
-        height: 120px;
+        height: 200px;
         overflow: scroll;
         overflow-x: hidden;
+        border: 1px solid $baseBorder;
     }
 }
 

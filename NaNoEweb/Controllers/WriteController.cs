@@ -136,6 +136,7 @@ public class WriteController : Controller
         return Json(new { status = "success" });
     }
 
+    [HttpPost]
     public JsonResult Act_UpdateContentText(string content_id, string new_text)
     {
         var content = DB.I.Get<MNovelContent>($"WHERE [id]={content_id}").First();
@@ -145,6 +146,7 @@ public class WriteController : Controller
         return Json(new { status = "success" });
     }
 
+    [HttpPost]
     public JsonResult Act_RemoveParagraph(string id, string prev, string next, string curContent, string prevContent, string nextContent, string dataType)
     {
         if (LoadedNovels.LoadedNovel == null) return Json(new { status = "failure" });
@@ -167,6 +169,7 @@ public class WriteController : Controller
         return Json(new { status = "success" });
     }
 
+    [HttpPost]
     public JsonResult Act_AddChapterNote(string title, string firstNote)
     {
         if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(firstNote)) return Json(new { status = "failed" });
@@ -188,5 +191,20 @@ public class WriteController : Controller
         DB.I.Insert(chapterInNotesNote);
 
         return Json(new { status = "success", id = newChapterInNotes.ID });
+    }
+
+    [HttpPost]
+    public JsonResult Act_AddAnotherChapterNote(string id, string note)
+    {
+        if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(note)) return Json(new { status = "failed" });
+
+        var inserted = new MNovelChapterNote()
+        {
+            NovelChapter_Id = int.Parse(id),
+            Note = note
+        };
+        DB.I.Insert(inserted);
+
+        return Json(new { status = "success", id = inserted.ID });
     }
 }

@@ -46,3 +46,20 @@ $(document).on('click', '[action-name="close-current-novel"]', function () {
         }
     });
 });
+
+// Global vars
+var isOnNotes = false;
+// Global additional logic on ready
+$(document).ready(function () {
+    /* put 'no-enter' as a class on any input that accidentally submits form on 'enter key' when it isn't wanted */
+    $(window).keydown(function (event) {
+        if (event.keyCode == 13 && $(event.target).hasClass('no-enter')) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    /* Used to do writing scroll versus notes scrolls */
+    $('.notes').mouseenter(function () { isOnNotes = true; });
+    $('.notes').mouseleave(function () { isOnNotes = false; });
+});

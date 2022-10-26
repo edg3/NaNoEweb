@@ -11,7 +11,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        Notes:<br />
+        <strong>Notes:</strong>
     </div>
 </div>
 <div class="row">
@@ -28,9 +28,9 @@
 </div>
 <div class="row">
     <div class="col-12 new-chapter-note" style="display:none;">
-        <form id="frmNewChapterNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_AddAnotherChapterNote">
+        <form id="frmAddAnotherChapterNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_AddAnotherChapterNote">
             Note:<br />
-            <input type="text" id="another-chapter-note" name="another-chapter-note" /><br />
+            <input type="text" id="another-chapter-note" name="another-chapter-note" class="no-enter" /><br />
             <br />
             <input type="button" value="Add" onclick="AjaxFormAnotherChapterNoteSubmit()" /><br />
         </form>
@@ -38,8 +38,37 @@
 </div>
 <script>
     function AjaxFormAnotherChapterNoteSubmit() {
+        //debugger;
+        $('#frmAddAnotherChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled');
+        var url = $('#frmAddAnotherChapterNote').attr('action');
         var chId = @Html.Raw(id);
-        alert('Add note to ' + chId);
+        //alert('Add note to ' + chId);
+        var formData = new FormData();
+        formData.append('id', chId);
+        formData.append('note', $('#another-chapter-note').val());
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+            //debugger;
+            if (response.status === "success") {
+                var id = response.id;
+                var note = $('#another-chapter-note').val();
+
+                $('#another-chapter-note').val('');
+                $('.chapter-items-list ul').append('<li class="chapter-note" note-id="' + id + '">' + note + ' <span class="lnr lnr-trash"></span></li>')
+            }
+            else if (response.status === "failed") {
+                alert('Failed to add another note to this chapter.');
+                $('.new-chapter-note').attr('style', '');
+            }
+        });
+
         $('.new-chapter-note').attr('style', 'display:none;');
+        $('#frmAddAnotherChapterNote').find('input[type="button"]').first().prop('disabled', false).removeClass('disabled');
     }
 </script>
