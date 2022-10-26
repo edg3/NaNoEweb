@@ -1,0 +1,45 @@
+﻿@using NaNoEweb.DBConnection
+@using NaNoEweb.Data
+@{
+    Layout = null;
+
+    var id = Context.Request.Query["id"];
+    var items = DB.I.Get<MNovelChapterNote>($"WHERE [novelchapter_id]={id}");
+}
+<div class="row">
+    <div class="col-12 add-chapter-note">+</div>
+</div>
+<div class="row">
+    <div class="col-12">
+        Notes:<br />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 chapter-items-list">
+        <ul>
+            @{
+                foreach (var item in items)
+                {
+                    <li class="chapter-note" note-id="@Html.Raw(item.ID)">@Html.Raw(item.Note) <span class="lnr lnr-trash"></span></li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 new-chapter-note" style="display:none;">
+        <form id="frmNewChapterNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_AddAnotherChapterNote">
+            Note:<br />
+            <input type="text" id="another-chapter-note" name="another-chapter-note" /><br />
+            <br />
+            <input type="button" value="Add" onclick="AjaxFormAnotherChapterNoteSubmit()" /><br />
+        </form>
+    </div>
+</div>
+<script>
+    function AjaxFormAnotherChapterNoteSubmit() {
+        var chId = @Html.Raw(id);
+        alert('Add note to ' + chId);
+        $('.new-chapter-note').attr('style', 'display:none;');
+    }
+</script>
