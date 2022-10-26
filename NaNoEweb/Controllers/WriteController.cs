@@ -162,11 +162,14 @@ public class WriteController : Controller
 
     public JsonResult Act_AddChapterNote(string title, string firstNote)
     {
+        if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(firstNote)) return Json(new { status = "failed" });
+
         var countChaptersInNotes = DB.I.Get<MNovelChapter>("").Count;
         var newChapterInNotes = new MNovelChapter()
         {
             Title = title,
-            OrderPosition = countChaptersInNotes + 1
+            OrderPosition = countChaptersInNotes + 1,
+            NovelInstance_Id = (int)LoadedNovels.LoadedNovel.ID
         };
         DB.I.Insert(newChapterInNotes);
 
@@ -177,6 +180,6 @@ public class WriteController : Controller
         };
         DB.I.Insert(chapterInNotesNote);
 
-        return Json(new { status = "success" });
+        return Json(new { status = "success", id = newChapterInNotes.ID });
     }
 }

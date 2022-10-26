@@ -56,14 +56,14 @@
             </div>
         </div>
         <div class="new-chapter-box" style="display: none;">
-            <form id="frmNewChapterNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_NewChapterNote">
+            <form id="frmNewChapterNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_AddChapterNote">
                 Title:<br />
                 <input type="text" id="chapter-title" name="chapter-title" /><br />
                 <br />
                 1st note:<br />
                 <input type="text" id="chapter-note" name="chapter-note" /><br />
                 <br />
-                <input type="button" value="Add" onclick="AjaxChapterFormSubmit()" /><br />
+                <input type="button" value="Add" onclick="AjaxFormChapterNoteSubmit()" /><br />
             </form>
         </div>
         <div class="new-note-box" style="display: none;">
@@ -137,6 +137,40 @@
             }
         });
         return lowest - 2;
+    }
+    function AjaxFormChapterNoteSubmit() {
+        debugger;
+        $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled')
+        var url = $('#frmNewChapterNote').attr('action');
+        var formData = new FormData();
+        formData.append('title', $('#chapter-title').val());
+        formData.append('firstnote', $('#chapter-note').val())
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+            debugger;
+            if (response.status === "success") {
+                var id = response.id;
+                var title = $('#chapter-title').val();
+                var lastLi = $('.chapter-items .items-list ul li').last();
+                var posId = 1;
+                if (lastLi.attr('data-id') != '-1') posId = $('.chapter-items .items-list ul li').length + 1;
+                $('.chapter-items .items-list ul').append('<li class="chapter-note-item" data-id="' + id + '">Ch. ' + posId + ': ' + title + '</li>');
+                $('#chapter-title').val('');
+                $('#chapter-note').val('');
+                $('.new-chapter-box').attr('style', 'display:none;');
+                if (lastLi.attr('data-id') == '-1') lastLi.remove();
+            }
+            else if (response.status === "failed") {
+                alert('Failed to add this chapter note')
+            }
+            $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', false).removeClass('disabled')
+        });
     }
     var editMode = false;
     $(document).ready(function () {
@@ -453,27 +487,6 @@
         $(document).on('click', '.chapter-note-item', function () {
             console.log('Load chapter notes:' + $(this).attr('data-id'));
         });
-
-        function AjaxFormSubmit() {
-            $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled')
-            var url = $('#frmNewChapterNote').attr('action');
-            var formData = new FormData();
-            formData.append('chaptertitle', $('#chapter-title').val());
-            formData.append('chapternote', $('#chapter-note').html())
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: formData,
-                processData: false,
-                contentType: false
-            }).done(function (response) {
-                if (response.status === "success") {
-                    alert("Chapter supposedly added");
-                }
-
-            });
-        }
 
         //$Spelling.SpellCheckAsYouType('.writing-box');
 

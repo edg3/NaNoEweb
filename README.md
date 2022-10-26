@@ -9,6 +9,8 @@ USing 'sqlite-net-pcl' for 'NaNoEwebAndroid.DBConnection' client service
 
 Note: create fastest data sharing method for phones <-> web updates
 
+4:30am reminder for myself: ctrl+K - ctrl+D
+
 ---
 2022.10.21 - TODO ASAP - my list of tasks keeps stealing me away from this work, lol
 ---
