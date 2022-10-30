@@ -290,6 +290,11 @@ body:has(.area-writing) {
     }
 }
 
+.delete-note-text {
+    border: 1px dotted $baseGrey;
+    padding: 8px;
+}
+
 @media screen and (max-width: 1062px) {
     .totals {
         display: none;
