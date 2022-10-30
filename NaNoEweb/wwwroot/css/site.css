@@ -1,4 +1,6 @@
-﻿html {
+﻿@import "../lib//jquery-ui/jquery-ui.css";
+@import "../lib/jquery-ui/jquery-ui.theme.css";
+html {
   font-size: 14px;
 }
 
@@ -225,7 +227,7 @@ div::-webkit-scrollbar-thumb:hover {
   margin-inline: auto;
 }
 .area-history .row {
-  padding: 8px 16px;
+  padding: 0px 8px;
 }
 
 /* new novel */

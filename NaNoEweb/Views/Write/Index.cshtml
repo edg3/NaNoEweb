@@ -42,13 +42,13 @@
                         var lstChapterNotes = DB.I.Get<MNovelChapter>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstChapterNotes.Count == 0)
                         {
-                                    <li data-id="-1"><em>Create your first item above...</em></li>
+                                        <li data-id="-1"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var chapterNote in lstChapterNotes.OrderBy(a => a.OrderPosition))
                             {
-                                        <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
+                                            <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
                             }
                         }
                     }
@@ -81,13 +81,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                        <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                            <div class="row">
-                                <div class="col-10">
-                                    @(DBInterop.ConvertFromSafeString(item.Text))
-                                </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                            <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                                <div class="row">
+                                    <div class="col-10">
+                                        @(DBInterop.ConvertFromSafeString(item.Text))
+                                    </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                                </div>
                             </div>
-                        </div>
             }
         }
     </div>
@@ -117,6 +117,7 @@
     </div>
 </div>
 <script>
+    var actId = -1;
     function updateTracking() {
         $.ajax({
             type: 'POST',
@@ -497,17 +498,6 @@
             });
         });
 
-        $(document).on('click', '.lnr-trash', function () {
-            var item = $(this);
-            if (item.parent().hasClass('chapter-note')) {
-                // If this is last chapter note - 'Are you sure you want to delete this chapter note set?' - make blatant must have 'one'; deciding if I want this; perhaps will change
-                // Show verify yes/no SPECIFYING 'this removes the entire chapter from notes, are you sure?'
-                // If yes => delete MChapterNotes; delete MChapter - reorder MChapter after position (move 1 up); log deletion obviously
-                // If not last chapter note
-                // Show verify yes/no SPECIFYING 'the\is removes just this one note; the chapter will stay here with the other notes added. Are you sure?'
-            }
-        });
-
         $(document).on('click', '.add-chapter-note', function () {
             $('.new-chapter-note').attr('style','');
         });
@@ -515,6 +505,19 @@
         //$Spelling.SpellCheckAsYouType('.writing-box');
 
         updateTracking();
+
+        $(document).on('click', '.lnr-trash', function () {
+            debugger;
+            var item = $(this);
+            if (item.parent().hasClass('chapter-note')) {
+                actId = item.parent().attr('note-id');
+                // If this is last chapter note - 'Are you sure you want to delete this chapter note set?' - make blatant must have 'one'; deciding if I want this; perhaps will change
+                // Show verify yes/no SPECIFYING 'this removes the entire chapter from notes, are you sure?'
+                // If yes => delete MChapterNotes; delete MChapter - reorder MChapter after position (move 1 up); log deletion obviously
+                // If not last chapter note
+                // Show verify yes/no SPECIFYING 'this removes just this one note; the chapter will stay here with the other notes added. Are you sure?'
+            }
+        });
 
     });
 </script>
