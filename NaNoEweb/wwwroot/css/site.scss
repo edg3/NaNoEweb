@@ -135,5 +135,6 @@ ul {
 
 /* Afterwards includes */
 @import "_icons.scss";
-@import "../lib//jquery-ui/jquery-ui.css";
+@import "../lib/jquery-ui/jquery-ui.css";
+@import "../lib/jquery-ui/jquery-ui.structure.css";
 @import "../lib/jquery-ui/jquery-ui.theme.css";

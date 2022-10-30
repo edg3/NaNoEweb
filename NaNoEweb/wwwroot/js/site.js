@@ -62,32 +62,4 @@ $(document).ready(function () {
     /* Used to do writing scroll versus notes scrolls */
     $('.notes').mouseenter(function () { isOnNotes = true; });
     $('.notes').mouseleave(function () { isOnNotes = false; });
-
-    /* Test jQuery UI */
-    $("#dialog").dialog({
-        autoOpen: false,
-        width: 400,
-        buttons: [
-            {
-                text: "Yes",
-                click: function () {
-                    alert('faked delete item: ' + $('#dialog').attr('data-id'));
-                    $(this).dialog("close");
-                }
-            },
-            {
-                text: "Cancel",
-                click: function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
-    });
-    // Link to open the dialog
-    $("#dialog-link").click(function (event) {
-
-        $('#dialog').attr('data-id', '123');
-        $("#dialog").dialog("open");
-        event.preventDefault();
-    });
 });

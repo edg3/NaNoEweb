@@ -28,4 +28,8 @@
     <_ContentIncludedByDefault Remove="Views\Home\ViewHistory.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jquery-ui\" />
+  </ItemGroup>
+
 </Project>
