@@ -2,9 +2,18 @@
 @{
     Layout = null;
     var counts = DB.I.GetNumbers((int)LoadedNovels.LoadedNovel.ID);
+    string needMsg;
+    if (counts[4] > 50000) {
+        needMsg = $"Fabulous, you're {counts[4] - 5000} over 50k words!";
+    }
+    else {
+        var approxDaysLeft = 30 - DateTime.Now.Day;
+        needMsg = $"Try get more than {((50000 - counts[4]) / approxDaysLeft)} words a day; you've got ~{approxDaysLeft} days left to get 50k words in one month.";
+    }
 }
 <p><div class="row"><div class="col-8"><strong>Word Count:</strong></div><div class="col-4">@(counts[4])</div></div></p>
 <p><div class="row"><div class="col-8"><strong>Chapters:</strong></div><div class="col-4">@(counts[1])</div></div></p>
 <p><div class="row"><div class="col-8"><strong>Paragraphs:</strong></div><div class="col-4">@(counts[0])</div></div></p>
 <p><div class="row"><div class="col-8"><strong>Bookmarks:</strong></div><div class="col-4">@(counts[3])</div></div></p>
 <p><div class="row"><div class="col-8"><strong>Notes:</strong></div><div class="col-4">@(counts[2])</div></div></p>
+<p><div class="row"><div class="col-12">@(needMsg)</div></div></p>
