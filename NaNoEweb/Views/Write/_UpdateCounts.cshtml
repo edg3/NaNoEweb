@@ -9,6 +9,11 @@
     else {
         var approxDaysLeft = 30 - DateTime.Now.Day;
         needMsg = $"Try get more than {((50000 - counts[4]) / approxDaysLeft)} words a day; you've got ~{approxDaysLeft} days left to get 50k words in one month.";
+
+        if (DateTime.Now.Day * 1667 > counts[4])
+        {
+            needMsg += $" You've got this, try get to over {DateTime.Now.Day * 1667} words when you can";
+        }
     }
 }
 <p><div class="row"><div class="col-8"><strong>Word Count:</strong></div><div class="col-4">@(counts[4])</div></div></p>
