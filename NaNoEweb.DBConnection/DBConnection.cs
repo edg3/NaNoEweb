@@ -157,6 +157,40 @@ public class DBConnection
                         read.Close();
                     }
                     break;
+                case "MNovelNote":
+                    cmd.CommandText = $"SELECT [id],[novelinstance_id],[title] FROM [MNovelNote] {data}";
+                    using (var read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            dynamic innerT = Convert.ChangeType(new MNovelNote()
+                            {
+                                ID = (uint)read.GetInt32(0),
+                                NovelInstance_ID = (uint)read.GetInt32(1),
+                                Title = DBInterop.ConvertFromSafeString(read.GetString(2))
+                            }, typeof(T));
+                            answer.Add(innerT);
+                        }
+                        read.Close();
+                    }
+                    break;
+                case "MNovelNoteNote":
+                    cmd.CommandText = $"SELECT [id].[novelnote_id],[note] FROM MNovelNoteNote {data}";
+                    using (var read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            dynamic innerT = Convert.ChangeType(new MNovelNoteNote()
+                            {
+                                ID = (uint)read.GetInt32(0),
+                                NovelNote_Id = read.GetInt32(1),
+                                Note = DBInterop.ConvertFromSafeString(read.GetString(2))
+                            }, typeof(T));
+                            answer.Add(innerT);
+                        }
+                        read.Close();
+                    }
+                    break;
             }
         }
 
@@ -221,6 +255,7 @@ public class DBConnection
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                     return;
+                // Thought: with the idea behind speed it isn't needed?
             }
         }
 

@@ -28,9 +28,19 @@
         <div class="notes-items">
             <div class="items-list">
                 <ul>
-                    <li data-id="-1"><em>Create your first item above...</em></li>
                     @{
-                        // TODO: items here interaction
+                        var lstNotes = DB.I.Get<MNovelNote>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
+                        if (lstNotes.Count == 0)
+                        {
+                            <li data-id="-2"><em>Create your first item above...</em></li>
+                        }
+                        else
+                        {
+                            foreach (var noteNote in lstNotes)
+                            {
+                                <li class="notes-items" data-id="@noteNote.ID">@noteNote.Title</li>
+                            }
+                        }
                     }
                 </ul>
             </div>
@@ -42,13 +52,13 @@
                         var lstChapterNotes = DB.I.Get<MNovelChapter>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstChapterNotes.Count == 0)
                         {
-                                        <li data-id="-1"><em>Create your first item above...</em></li>
+                            <li data-id="-1"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var chapterNote in lstChapterNotes.OrderBy(a => a.OrderPosition))
                             {
-                                            <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
+                                <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
                             }
                         }
                     }
@@ -67,7 +77,15 @@
             </form>
         </div>
         <div class="new-note-box" style="display: none;">
-            Create a new note here
+            <form id="frmNewNoteNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_AddNoteNote">
+                Title:<br />
+                <input type="text" id="note-title" name="note-title" /><br />
+                <br />
+                1st note:<br />
+                <input type="text" id="note-note" name="note-note" /><br />
+                <br />
+                <input type="button" value="Add" onclick="AjaxFormNoteNoteSubmit()" /><br />
+            </form>
         </div>
         <div class="items-view"></div>
     </div>
@@ -81,13 +99,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                            <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                                <div class="row">
-                                    <div class="col-10">
-                                        @(DBInterop.ConvertFromSafeString(item.Text))
-                                    </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
-                                </div>
-                            </div>
+                <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                    <div class="row">
+                        <div class="col-10">
+                            @(DBInterop.ConvertFromSafeString(item.Text))
+                        </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                    </div>
+                </div>
             }
         }
     </div>
@@ -554,7 +572,7 @@
                 $('#dialog').attr('data-id', actId);
                 $('.delete-note-title').html('Note Note:');
             }
-            $('.delete-note-text').html(item.parent().html().replace('<span class="lnr lnr-trash"></span>',''));
+            $('.delete-note-text').html(item.parent().html().replace('<span class="lnr lnr-trash"></span>', ''));
             $("#dialog").dialog("open");
         });
 
