@@ -301,6 +301,10 @@ body:has(.area-writing) {
     padding: 8px;
 }
 
+.invis {
+    display: none;
+}
+
 @media screen and (max-width: 1062px) {
     .totals {
         display: none;

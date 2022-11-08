@@ -32,13 +32,13 @@
                         var lstNotes = DB.I.Get<MNovelNote>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstNotes.Count == 0)
                         {
-                            <li data-id="-2"><em>Create your first item above...</em></li>
+                                                <li data-id="-2"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var noteNote in lstNotes)
                             {
-                                <li class="notes-items-item" data-id="@noteNote.ID">@noteNote.Title</li>
+                                                    <li class="notes-items-item" data-id="@noteNote.ID">@noteNote.Title</li>
                             }
                         }
                     }
@@ -52,13 +52,13 @@
                         var lstChapterNotes = DB.I.Get<MNovelChapter>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstChapterNotes.Count == 0)
                         {
-                            <li data-id="-1"><em>Create your first item above...</em></li>
+                                                <li data-id="-1"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var chapterNote in lstChapterNotes.OrderBy(a => a.OrderPosition))
                             {
-                                <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
+                                                    <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
                             }
                         }
                     }
@@ -99,13 +99,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                    <div class="row">
-                        <div class="col-10">
-                            @(DBInterop.ConvertFromSafeString(item.Text))
-                        </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
-                    </div>
-                </div>
+                                    <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                @(DBInterop.ConvertFromSafeString(item.Text))
+                                            </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                                        </div>
+                                    </div>
             }
         }
     </div>
@@ -607,11 +607,14 @@
             }
             $('.delete-note-text').html(item.parent().html().replace('<span class="lnr lnr-trash"></span>', ''));
             $("#dialog").dialog("open");
+            $('.ui-dialog').last().removeClass('invis');
         });
+
+        $('.ui-dialog').addClass('invis');
 
     });
 
-    // TODO: make these disable all behind until closed/cancelled
+    // TODO: work out a better way
     $("#dialog").dialog({
         autoOpen: false,
         width: 400,
@@ -625,13 +628,13 @@
                     else if (isNote) {
                         alert('fake delete note note: ' + $('#dialog').attr('data-id'));
                     }
-                    $(this).dialog("close");
+                    $('button[title="Close"]').click()
                 }
             },
             {
                 text: "Cancel",
                 click: function () {
-                    $(this).dialog("close");
+                    $('button[title="Close"]').click()
                 }
             }
         ]
