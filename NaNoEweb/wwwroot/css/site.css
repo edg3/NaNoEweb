@@ -530,6 +530,13 @@ body:has(.area-writing) {
   overflow-x: hidden;
   border: 1px solid #EFEFEF;
 }
+.items-view .notes-search {
+  display: flex;
+  margin: -18px 4px;
+  border: 1px dashed blue;
+  width: calc(100% - 18px);
+  background-color: #FFF;
+}
 
 .items-list ul {
   height: 100px;

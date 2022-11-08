@@ -32,17 +32,18 @@
                         var lstNotes = DB.I.Get<MNovelNote>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstNotes.Count == 0)
                         {
-                                    <li data-id="-2"><em>Create your first item above...</em></li>
+                            <li data-id="-2"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var noteNote in lstNotes)
                             {
-                                        <li class="notes-items-item" data-id="@noteNote.ID">@noteNote.Title</li>
+                                <li class="notes-items-item" data-id="@noteNote.ID">@noteNote.Title</li>
                             }
                         }
                     }
                 </ul>
+                <input type="text" class="notes-search" />
             </div>
         </div>
         <div class="chapter-items">
@@ -52,13 +53,13 @@
                         var lstChapterNotes = DB.I.Get<MNovelChapter>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
                         if (lstChapterNotes.Count == 0)
                         {
-                                    <li data-id="-1"><em>Create your first item above...</em></li>
+                            <li data-id="-1"><em>Create your first item above...</em></li>
                         }
                         else
                         {
                             foreach (var chapterNote in lstChapterNotes.OrderBy(a => a.OrderPosition))
                             {
-                                        <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
+                                <li class="chapter-note-item" data-id="@chapterNote.ID">Ch. @chapterNote.OrderPosition: @chapterNote.Title</li>
                             }
                         }
                     }
@@ -99,13 +100,13 @@
             foreach (var position in ordered)
             {
                 var item = DB.I.Get<MNovelContent>($"WHERE id={position.ID}").First();
-                        <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
-                            <div class="row">
-                                <div class="col-10">
-                                    @(DBInterop.ConvertFromSafeString(item.Text))
-                                </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
-                            </div>
-                        </div>
+                <div class="paragraph @((position.Flag == "C" ? "para-chapter" : (position.Flag == "N" ? "para-note" : (position.Flag == "B" ? "para-bookmark" : ""))))" data-id="@(item.ID)" data-prev="@(item.ID_Before)" data-next="@(item.ID_After)">
+                    <div class="row">
+                        <div class="col-10">
+                            @(DBInterop.ConvertFromSafeString(item.Text))
+                        </div><div class="col-2"><div class="action" action="delete-paragraph">Delete</div></div>
+                    </div>
+                </div>
             }
         }
     </div>
@@ -191,7 +192,6 @@
         return lowest - 2;
     }
     function AjaxFormChapterNoteSubmit() {
-        //debugger;
         $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled');
         var url = $('#frmNewChapterNote').attr('action');
         var formData = new FormData();
@@ -205,7 +205,6 @@
             processData: false,
             contentType: false
         }).done(function (response) {
-            //debugger;
             if (response.status === "success") {
                 var id = response.id;
                 var title = $('#chapter-title').val();
@@ -225,7 +224,6 @@
         });
     }
     function AjaxFormNoteNoteSubmit() {
-        //debugger;
         $('#frmNewNoteNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled');
         var url = $('#frmNewNoteNote').attr('action');
         var formData = new FormData();
@@ -239,12 +237,10 @@
             processData: false,
             contentType: false
         }).done(function (response) {
-            //debugger;
             if (response.status === "success") {
                 var id = response.id;
                 var title = $('#note-title').val();
                 var lastLi = $('.note-items .items-list ul li').last();
-                // if (lastLi.attr('data-id') != '-1') // don't need as it isn't in order
                 $('.notes-items .items-list ul').append('<li class="note-items-item" data-id="' + id + '">' + title + '</li>');
                 $('#note-title').val('');
                 $('#note-note').val('');
@@ -263,7 +259,6 @@
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code == 13) {
                 e.preventDefault();
-                //debugger;
                 if (!editMode) {
                     var content = $('.writing-box').val();
                     var exploded = content.split('.');
@@ -528,7 +523,6 @@
         $('.writing-box').focus();
 
         $(document).on('click', '.action[action="delete-paragraph"]', function () {
-            //console.log($(this).parent().parent().parent());
             var block = $(this).parent().parent().parent();
             var id = block.attr('data-id');
             var preId = block.attr('data-prev');
@@ -557,7 +551,6 @@
                     $('[data-id="' + preId + '"]').attr('data-next', nexId);
                     $('[data-id="' + nexId + '"]').attr('data-prev', preId);
                     $('[data-id="' + id + '"]').remove();
-                    //debugger;
                     updateTracking();
                 }
             });
@@ -627,7 +620,6 @@
 
     });
 
-    // TODO: work out a better way
     $("#dialog").dialog({
         autoOpen: false,
         width: 400,
