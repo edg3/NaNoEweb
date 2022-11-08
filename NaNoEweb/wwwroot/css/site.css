@@ -181,24 +181,24 @@ input[type=button]:focus,
   text-align: center;
 }
 
-div {
+* {
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
-div::-webkit-scrollbar {
+*::-webkit-scrollbar {
   height: 5px;
   width: 5px;
 }
-div::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
   border-radius: 5px;
 }
-div::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: #9F9F9F;
   border-radius: 5px;
 }
-div::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: #0067bb;
 }
 
@@ -499,29 +499,32 @@ body:has(.area-writing) {
 .items-view {
   border: 1px dotted #b5b5b5;
 }
-.items-view .chapter-note span {
+.items-view span {
   font-size: 14px;
   color: #b5b5b5;
   padding: 4px;
 }
-.items-view .chapter-note span:hover {
+.items-view span:hover {
   color: #FF0000;
   cursor: pointer;
 }
-.items-view .add-chapter-note {
+.items-view .add-chapter-note,
+.items-view .add-note-note {
   width: 14px;
   text-align: center;
   border-radius: 10px;
   border: 1px solid #b5b5b5;
   margin-inline: auto;
 }
-.items-view .add-chapter-note:hover {
+.items-view .add-chapter-note:hover,
+.items-view .add-note-note:hover {
   color: #fff;
   background-color: #0067bb;
   border: 1px solid #FFF;
   cursor: pointer;
 }
-.items-view .chapter-items-list {
+.items-view .chapter-items-list,
+.items-view .note-items-list {
   height: 200px;
   overflow: scroll;
   overflow-x: hidden;
@@ -530,8 +533,8 @@ body:has(.area-writing) {
 
 .items-list ul {
   height: 100px;
-  overflow: hidden;
-  overflow-y: scroll;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .delete-note-text {

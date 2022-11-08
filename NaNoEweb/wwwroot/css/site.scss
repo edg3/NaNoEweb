@@ -96,8 +96,8 @@ nav {
     text-align: center;
 }
 
-// Div scrollbars
-div {
+// Scrollbars
+* {
     &::-webkit-scrollbar {
         height: 5px;
         width: 5px;

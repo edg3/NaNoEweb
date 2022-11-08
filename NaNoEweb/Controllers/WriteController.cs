@@ -27,6 +27,13 @@ public class WriteController : Controller
         return View();
     }
 
+    public IActionResult _GetNoteNotes()
+    {
+        if (LoadedNovels.LoadedNovel == null) return Redirect("~/");
+
+        return View();
+    }
+
 
     [HttpPost]
     public JsonResult Act_AddParagraph(string temp_id, string id_before, string id_after, string flag, string text)

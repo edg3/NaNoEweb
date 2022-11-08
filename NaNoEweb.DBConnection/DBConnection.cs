@@ -175,7 +175,7 @@ public class DBConnection
                     }
                     break;
                 case "MNovelNoteNote":
-                    cmd.CommandText = $"SELECT [id].[novelnote_id],[note] FROM MNovelNoteNote {data}";
+                    cmd.CommandText = $"SELECT [id],[novelnote_id],[note] FROM MNovelNoteNote {data}";
                     using (var read = cmd.ExecuteReader())
                     {
                         while (read.Read())

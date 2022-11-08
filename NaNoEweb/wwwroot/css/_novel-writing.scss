@@ -254,20 +254,19 @@ body:has(.area-writing) {
 .items-view {
     border: 1px dotted $baseGrey;
 
-    .chapter-note {
-        span {
-            font-size: 14px;
-            color: $baseGrey;
-            padding: 4px;
+    span {
+        font-size: 14px;
+        color: $baseGrey;
+        padding: 4px;
 
-            &:hover {
-                color: $baseActionRed;
-                cursor: pointer;
-            }
+        &:hover {
+            color: $baseActionRed;
+            cursor: pointer;
         }
     }
 
-    .add-chapter-note {
+    .add-chapter-note,
+    .add-note-note {
         width: 14px;
         text-align: center;
         border-radius: 10px;
@@ -282,7 +281,8 @@ body:has(.area-writing) {
         }
     }
 
-    .chapter-items-list {
+    .chapter-items-list,
+    .note-items-list {
         height: 200px;
         overflow: scroll;
         overflow-x: hidden;
@@ -292,8 +292,9 @@ body:has(.area-writing) {
 
 .items-list ul {
     height: 100px;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: scroll;
+    overflow-x: hidden;
+    //overflow-y: scroll;
 }
 
 .delete-note-text {
