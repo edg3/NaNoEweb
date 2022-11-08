@@ -43,7 +43,8 @@
                         }
                     }
                 </ul>
-                <input type="text" class="notes-search" />
+                <!-- Bugged: Need to work out why js logic isn't a good 5am thing for me -->
+                <input type="text" class="notes-search" id="notes-search" />
             </div>
         </div>
         <div class="chapter-items">
@@ -617,6 +618,15 @@
         });
 
         $('.ui-dialog').addClass('invis');
+
+        $('.notes-search').on('keypress', function (e) {
+            $('.notes-items ul li').removeClass('invis');
+            $('.notes-items ul li').each(function (q) {
+                if ($($('.notes-items ul li')[q]).html().toLowerCase().indexOf($('.notes-search').val().toLowerCase()) < 0) {
+                    $($('.notes-items ul li')[q]).addClass('invis');
+                }
+            });
+        });
 
     });
 

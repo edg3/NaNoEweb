@@ -195,7 +195,6 @@ body:has(.area-writing) {
 
         .notes-items, .chapter-items {
             margin-top: 16px;
-            margin-bottom: 16px;
             height: 100px;
 
             ul {
@@ -211,6 +210,14 @@ body:has(.area-writing) {
                     }
                 }
             }
+        }
+
+        .chapter-items {
+            margin-bottom: 16px;
+        }
+
+        .notes-items {
+            margin-bottom: 32px;
         }
     }
 }
@@ -288,14 +295,16 @@ body:has(.area-writing) {
         overflow-x: hidden;
         border: 1px solid $baseBorder;
     }
+}
 
-    .notes-search {
-        display: flex;
-        margin: -18px 4px;
-        border: 1px dashed blue;
-        width: calc(100% - 18px);
-        background-color: #FFF;
-    }
+.notes-search {
+    color: $baseActionBlue;
+    display: flex;
+    margin: -10px 0px;
+    border: 1px dashed $baseGrey;
+    width: calc(100% - 8px);
+    background-color: #FFF;
+    outline: none;
 }
 
 .items-list ul {
