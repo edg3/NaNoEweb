@@ -236,4 +236,19 @@ public class WriteController : Controller
 
         return Json(new { status = "success", id = newNoteInNotes.ID });
     }
+
+    [HttpPost]
+    public JsonResult Act_AddAnotherNoteNote(string id, string note)
+    {
+        if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(note)) return Json(new { status = "failed" });
+
+        var inserted = new MNovelNoteNote()
+        {
+            NovelNote_Id = int.Parse(id),
+            Note = note
+        };
+        DB.I.Insert(inserted);
+
+        return Json(new { status = "success", id = inserted.ID });
+    }
 }

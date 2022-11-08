@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12 new-chapter-note" style="display:none;">
+    <div class="col-12 new-note-note" style="display:none;">
         <form id="frmAddAnotherNoteNote" method="post" enctype="multipart/form-data" asp-controller="Write" asp-action="Act_AddAnotherNoteNote">
             Note:<br />
             <input type="text" id="another-note-note" name="another-note-note" class="no-enter" /><br />
@@ -37,7 +37,7 @@
     </div>
 </div>
 <script>
-    function AjaxFormAnotherChapterNoteSubmit() {
+    function AjaxFormAnotherNoteNoteSubmit() {
         //debugger;
         $('#frmAddAnotherNoteNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled');
         var url = $('#frmAddAnotherNoteNote').attr('action');
@@ -60,7 +60,7 @@
                 var note = $('#another-note-note').val();
 
                 $('#another-note-note').val('');
-                $('.chapter-items-list ul').append('<li class="note-note" note-id="' + id + '">' + note + ' <span class="lnr lnr-trash"></span></li>')
+                $('.note-items-list ul').append('<li class="note-note" note-id="' + id + '">' + note + ' <span class="lnr lnr-trash"></span></li>')
             }
             else if (response.status === "failed") {
                 alert('Failed to add another note to this chapter.');
