@@ -174,7 +174,7 @@ public class WriteController : Controller
     {
         if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(firstNote)) return Json(new { status = "failed" });
 
-        var countChaptersInNotes = DB.I.Get<MNovelChapter>("").Count;
+        var countChaptersInNotes = DB.I.Get<MNovelChapter>($"WHERE novelinstance_id={LoadedNovels.LoadedNovel.ID}").Count;
         var newChapterInNotes = new MNovelChapter()
         {
             Title = title,
@@ -206,5 +206,27 @@ public class WriteController : Controller
         DB.I.Insert(inserted);
 
         return Json(new { status = "success", id = inserted.ID });
+    }
+
+    [HttpPost]
+    public JsonResult Act_AddNoteNote(string title, string firstNote)
+    {
+        if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(firstNote)) return Json(new { status = "failed" });
+
+        var newNoteInNotes = new MNovelNote()
+        {
+            Title = title,
+            NovelInstance_ID = LoadedNovels.LoadedNovel.ID
+        };
+        DB.I.Insert(newNoteInNotes);
+
+        var noteInNotesNote = new MNovelNoteNote()
+        {
+            Note = firstNote,
+            NovelNote_Id = (int)newNoteInNotes.ID
+        };
+        DB.I.Insert(noteInNotesNote);
+
+        return Json(new { status = "success", id = newNoteInNotes.ID });
     }
 }

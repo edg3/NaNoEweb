@@ -38,7 +38,7 @@
                         {
                             foreach (var noteNote in lstNotes)
                             {
-                                <li class="notes-items" data-id="@noteNote.ID">@noteNote.Title</li>
+                                <li class="notes-items-item" data-id="@noteNote.ID">@noteNote.Title</li>
                             }
                         }
                     }
@@ -192,7 +192,7 @@
     }
     function AjaxFormChapterNoteSubmit() {
         //debugger;
-        $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled')
+        $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled');
         var url = $('#frmNewChapterNote').attr('action');
         var formData = new FormData();
         formData.append('title', $('#chapter-title').val());
@@ -219,10 +219,43 @@
                 if (lastLi.attr('data-id') == '-1') lastLi.remove();
             }
             else if (response.status === "failed") {
-                alert('Failed to add this chapter note')
+                alert('Failed to add this chapter note');
             }
-            $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', false).removeClass('disabled')
+            $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', false).removeClass('disabled');
         });
+    }
+    function AjaxFormNoteNoteSubmit() {
+        //debugger;
+        $('#frmNewNoteNote').find('input[type="button"]').first().prop('disabled', true).addClass('disabled');
+        var url = $('#frmNewNoteNote').attr('action');
+        var formData = new FormData();
+        formData.append('title', $('#note-title').val());
+        formData.append('firstnote', $('#note-note').val());
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+            //debugger;
+            if (response.status === "success") {
+                var id = response.id;
+                var title = $('#note-title').val();
+                var lastLi = $('.note-items .items-list ul li').last();
+                // if (lastLi.attr('data-id') != '-1') // don't need as it isn't in order
+                $('.notes-items .items-list ul').append('<li class="note-items-item" data-id="' + id + '">' + title + '</li>');
+                $('#note-title').val('');
+                $('#note-note').val('');
+                $('.new-note-box').attr('style', 'display:none;');
+                if (lastLi.attr('data-id') == '-1') lastLi.remove();
+            }
+            else if (response.status === 'failed') {
+                alert('Failed to add this note note');
+            }
+            $('#frmNewChapterNote').find('input[type="button"]').first().prop('disabled', false).removeClass('disabled');
+        })
     }
     var editMode = false;
     $(document).ready(function () {

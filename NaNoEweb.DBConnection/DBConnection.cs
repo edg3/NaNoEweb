@@ -348,6 +348,30 @@ public class DBConnection
                         t6.ID = (uint)((int)updateId.ExecuteScalar());
                     }
                     return;
+                case "MNovelNote":
+                    var t7 = insert as MNovelNote;
+                    if (t7.ID != 0) throw new ArgumentException();
+                    cmd.CommandText = $"INSERT INTO MNovelNote([novelinstance_id], [title]) VALUES ({t7.NovelInstance_ID},'{DBInterop.ConvertToSafeString(t7.Title)}')";
+                    cmd.ExecuteNonQuery();
+                    using (var updateId = new SqlCommand())
+                    {
+                        updateId.Connection = _connection;
+                        updateId.CommandText = $"SELECT MAX(id) FROM [MNovelNote]";
+                        t7.ID = (uint)((int)updateId.ExecuteScalar());
+                    }
+                    return;
+                case "MNovelNoteNote":
+                    var t8 = insert as MNovelNoteNote;
+                    if (t8.ID != 0) throw new ArgumentException();
+                    cmd.CommandText = $"INSERT INTO MNovelNoteNote([novelnote_id],[note]) VALUES ({t8.NovelNote_Id},'{DBInterop.ConvertToSafeString(t8.Note)}')";
+                    cmd.ExecuteNonQuery();
+                    using (var updateId = new SqlCommand())
+                    {
+                        updateId.Connection = _connection;
+                        updateId.CommandText = $"SELECT MAX(id) FROM [MNovelNoteNote]";
+                        t8.ID = (uint)((int)updateId.ExecuteScalar());
+                    }
+                    return;
             }
         }
 
