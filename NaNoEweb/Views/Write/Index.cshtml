@@ -628,12 +628,15 @@
         $('.ui-dialog').addClass('invis');
 
         $('.notes-search').on('keypress', function (e) {
-            $('.notes-items ul li').removeClass('invis');
-            $('.notes-items ul li').each(function (q) {
-                if ($($('.notes-items ul li')[q]).html().toLowerCase().indexOf($('.notes-search').val().toLowerCase()) < 0) {
-                    $($('.notes-items ul li')[q]).addClass('invis');
-                }
-            });
+            setTimeout(function () {
+                $('.notes-items ul li').removeClass('invis');
+                var val = $('.notes-search').val().toLowerCase();
+                $('.notes-items ul li').each(function (q) {
+                    if ($(this).html().toLowerCase().indexOf($('.notes-search').val().toLowerCase()) < 0) {
+                        $(this).addClass('invis');
+                    }
+                });
+            }, 100);
         });
 
     });
