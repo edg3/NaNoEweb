@@ -29,7 +29,7 @@
             <div class="items-list">
                 <ul>
                     @{
-                        var lstNotes = DB.I.Get<MNovelNote>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}");
+                        var lstNotes = DB.I.Get<MNovelNote>($"WHERE [novelinstance_id]={LoadedNovels.LoadedNovel.ID}").OrderBy(a => a.Title).ToList();
                         if (lstNotes.Count == 0)
                         {
                             <li data-id="-2"><em>Create your first item above...</em></li>
@@ -88,6 +88,14 @@
                 <br />
                 <input type="button" value="Add" onclick="AjaxFormNoteNoteSubmit()" /><br />
             </form>
+            <div class="row">
+                <div class="col-12">
+                    Try structure your 'notes' with a format, e.g.<br />
+                    'C: C1 Joe Soap'<br />
+                    <em>Character, Chapter 1, Joe Soap, with information we might add/reuse/need elsewhere</em><br />
+                    We can then search 'C:' to find all characters.
+                </div>
+            </div>
         </div>
         <div class="items-view"></div>
     </div>
