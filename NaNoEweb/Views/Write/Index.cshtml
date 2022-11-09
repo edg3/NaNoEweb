@@ -375,7 +375,7 @@
                                 processData: false,
                                 contentType: false
                             }).done(function (response) {
-                                console.log('next');
+                                //console.log('next');
                             });
                             // Act_UpdateParagraphNextID
                             url = 'Write/Act_UpdateParagraphNextID';
@@ -389,8 +389,9 @@
                                 processData: false,
                                 contentType: false
                             }).done(function (response) {
-                                console.log('prev');
+                                //console.log('prev');
                             });
+                            updateTracking();
                         }
                         else {
                             alert('ERROR - Please make a copy of most recent paragraph and reload the page...')
@@ -426,11 +427,10 @@
                         processData: false,
                         contentType: false
                     }).done(function (e) {
-                        console.log('Updated text for MNovelContent');
+                        updateTracking();
+                        //console.log('Updated text for MNovelContent');
                     });
                 }
-
-                updateTracking();
             }
         });
         var trackDelayMousewheel = false;
