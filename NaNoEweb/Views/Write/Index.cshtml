@@ -269,18 +269,19 @@
             if (code == 13) {
                 e.preventDefault();
                 if (!editMode) {
-                    var content = $('.writing-box').val();
-                    var exploded = content.split('.');
-                    exploded = content.split('.');
-                    content = '';
-                    exploded.forEach(function (it) {
-                        while (it.includes('  ')) it = it.replaceAll('  ', ' ');
-                        var smlr = it.trim();
-                        smlr = smlr.charAt(0).toUpperCase() + smlr.substring(1);
-                        content += smlr + '. ';
-                    });
-                    content = content.replaceAll(' .', '');
+                    var content = $('.writing-box').val().replaceAll('  ', ' ');
                     content.trim();
+                    //var exploded = content.split('.');
+                    //exploded = content.split('.');
+                    //content = '';
+                    //exploded.forEach(function (it) {
+                    //    while (it.includes('  ')) it = it.replaceAll('  ', ' ');
+                    //    var smlr = it.trim();
+                    //    smlr = smlr.charAt(0).toUpperCase() + smlr.substring(1);
+                    //    content += smlr + '. ';
+                    //});
+                    //content = content.replaceAll(' .', '');
+                    //content.trim();
                     $('.writing-box').val('');
 
                     /* GET ABOVE AND BELOW */
@@ -399,18 +400,19 @@
                 }
                 else { // editing save into the above paragraph with the proper format
                     /* Write/Act_UpdateContentText(string content_id, string new_text) */
-                    var content = $('.writing-box').val();
-                    var exploded = content.split('.');
-                    exploded = content.split('.');
-                    content = '';
-                    exploded.forEach(function (it) {
-                        while (it.includes('  ')) it = it.replaceAll('  ', ' ');
-                        var smlr = it.trim();
-                        smlr = smlr.charAt(0).toUpperCase() + smlr.substring(1);
-                        content += smlr + '. ';
-                    });
-                    content = content.replaceAll(' .', '');
+                    var content = $('.writing-box').val().replaceAll('  ', ' ');
                     content.trim();
+                    //var exploded = content.split('.');
+                    //exploded = content.split('.');
+                    //content = '';
+                    //exploded.forEach(function (it) {
+                    //    while (it.includes('  ')) it = it.replaceAll('  ', ' ');
+                    //    var smlr = it.trim();
+                    //    smlr = smlr.charAt(0).toUpperCase() + smlr.substring(1);
+                    //    content += smlr + '. ';
+                    //});
+                    //content = content.replaceAll(' .', '');
+                    //content.trim();
                     var upper = $('.novel-above');
                     var id = upper.find('.paragraph').last().attr('data-id');
                     upper.find('.paragraph').last().find('.col-10').html(content);

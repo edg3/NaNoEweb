@@ -1,4 +1,4 @@
-NaNoE.web
+﻿NaNoE.web
 ---
 Web implementation of NaNoE; putting my Asp.Net skills to best practice.
 - Idea: make it a web service, then can also use my phone to write/edit my novel(s)
@@ -14,8 +14,6 @@ Note: create fastest data sharing method for phones <-> web updates
 ---
 2022.10.21 - TODO ASAP - my list of tasks keeps stealing me away from this work, lol
 ---
-- End sentence characters:
-	.	.�	?�	!�	?	!
 - Bug: notes interaction, as a whole
 - close 'add note/chapter/note note/chapter note' well with interactions - keep data but hide, perhaps?
 
@@ -41,3 +39,7 @@ Notes Helper:
 - Add in top right notes note section (ajax, jquery, and partials/controller functions)
 - Make search function to go through long lists faster
 - Make some sort of suggesting to use 'CategoryName:' for ordering and collections, then can search for 'CategoryName' and it shows all, e.g. 'People:' search shows all categorised as 'People:' - hints all thats needed; you can structure it for yourself
+
+- [cancelled, it can be in the users hands for what they write] End sentence characters:
+	.	.”	?”	!”	?	!
+	■	□	▪	▫	▬	▲
