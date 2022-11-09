@@ -15,6 +15,7 @@ Note: create fastest data sharing method for phones <-> web updates
 2022.10.21 - TODO ASAP - my list of tasks keeps stealing me away from this work, lol
 ---
 - Bug: notes interaction, as a whole
+- Bug: History tracking missing a ton
 - close 'add note/chapter/note note/chapter note' well with interactions - keep data but hide, perhaps?
 
 Get Errors suggestions up in edit mode:
